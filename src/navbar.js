@@ -4,16 +4,15 @@ import Menu from "@mui/icons-material/Menu";
 import Logo from "./assets/logo.gif";
 import CustomLink from "./utils/CustomLink";
 
-
 const mainLinks = [
   { title: `Home`, path: `/` },
   { title: `Vods`, path: `/vods` },
-  { title: `Merch`, path: `https://nymn-official-merchandise.creator-spring.com/`}
+  { title: `Merch`, path: `https://nymn-official-merchandise.creator-spring.com` },
 ];
 const socialLinks = [
   { title: `Twitch`, path: `https://twitch.tv/nymn` },
   { title: `Twitter`, path: `https://twitter.com/nymnion` },
-  { title: `Reddit`, path: `https://reddit.com/r/RedditAndChill`},
+  { title: `Reddit`, path: `https://reddit.com/r/RedditAndChill` },
   { title: `Discord`, path: `https://discord.gg/nymn` },
   { title: `Youtube`, path: `https://youtube.com/nymnion` },
 ];

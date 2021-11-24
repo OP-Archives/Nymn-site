@@ -5,6 +5,8 @@ import Navbar from "./navbar";
 import { createTheme, ThemeProvider, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline, styled } from "@mui/material";
 import { blue } from "@mui/material/colors";
+import Submission from "./submission";
+import Merch from "./Merch";
 
 const channel = "nymn",
   twitchId = "62300805";
@@ -21,6 +23,9 @@ export default function App() {
       },
       secondary: {
         main: "#292828",
+      },
+      nnys: {
+        main: "#cc9a1c",
       },
     },
     components: {
@@ -71,6 +76,17 @@ export default function App() {
               </Parent>
             }
           />
+          <Route
+            exact
+            path="/submit"
+            element={
+              <Parent>
+                <Navbar />
+                <Submission />
+              </Parent>
+            }
+          />
+          <Route exact path="/merch" element={<Merch />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
