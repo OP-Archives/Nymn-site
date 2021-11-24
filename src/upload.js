@@ -1,6 +1,7 @@
-import { Button, Box, Typography, Alert, Paper } from "@mui/material";
+import { Box, Typography, Alert, Paper } from "@mui/material";
 import { useState } from "react";
 import Upload from "./utils/upload";
+import CustomButton from "./utils/CustomButton";
 
 const MAX_FILE_SIZE = 200000000;
 
@@ -27,10 +28,10 @@ export default function UploadComponent(props) {
   return (
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", mb: 2 }}>
       {fileError && <Alert severity="error">{fileError}</Alert>}
-      <Button variant="outlined" component="label" color="nnys" sx={{ mt: 1 }}>
+      <CustomButton variant="contained" component="label" color="nnys" sx={{ mt: 1 }}>
         Choose a Video
         <input onChange={changeFile} type="file" accept="video/*" hidden title="" value="" />
-      </Button>
+      </CustomButton>
       <Typography variant="caption" color="textSecondary">
         Limit: 200 Mbs
       </Typography>

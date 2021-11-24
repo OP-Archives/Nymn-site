@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { Alert, Box, LinearProgress, Typography, Button } from "@mui/material";
+import { Alert, Box, LinearProgress, Typography } from "@mui/material";
+import CustomButton from "./CustomButton";
 
 const MAX_FILE_SIZE = 200000000;
 
@@ -49,9 +50,9 @@ export default function Upload(props) {
       {file && (
         <>
           <Box sx={{ m: 1 }}>
-            <Button disabled={!file || uploading} onClick={upload} variant="outlined" component="label" color="nnys" sx={{ mt: 1 }}>
+            <CustomButton disabled={!file || uploading} onClick={upload} variant="contained" component="label" color="nnys" sx={{ mt: 1 }}>
               Submit Video
-            </Button>
+            </CustomButton>
           </Box>
           <Box sx={{ m: 1 }}>{uploadError && <Alert severity="error">{uploadError}</Alert>}</Box>
           <Box sx={{ m: 1 }}>{progress && <LinearProgressWithLabel value={progress} />}</Box>

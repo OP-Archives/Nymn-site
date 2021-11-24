@@ -1,8 +1,9 @@
-import { Button, Box, Typography, Alert, Paper, TextField } from "@mui/material";
+import { Box, Typography, Alert, Paper, TextField } from "@mui/material";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import Upload from "./utils/upload";
 import { debounce } from "lodash";
+import CustomButton from "./utils/CustomButton";
 
 export default function Record(props) {
   const { password } = props;
@@ -43,14 +44,14 @@ export default function Record(props) {
           {mediaBlobUrl && !previewStream.active && <video src={mediaBlobUrl} controls width="50%" />}
           <Box sx={{ display: "flex", mt: 1, justifyContent: "center" }}>
             <Box sx={{ m: 1 }}>
-              <Button disabled={name.length === 0} variant="outlined" onClick={startRecording} color="nnys">
+              <CustomButton disabled={name.length === 0 || status === "recording"} variant="contained" onClick={startRecording} color="nnys">
                 Start Recording
-              </Button>
+              </CustomButton>
             </Box>
             <Box sx={{ m: 1 }}>
-              <Button disabled={name.length === 0} variant="outlined" onClick={stopRecording} color="nnys">
+              <CustomButton disabled={name.length === 0 || status !== "recording"} variant="contained" onClick={stopRecording} color="nnys">
                 Stop Recording
-              </Button>
+              </CustomButton>
             </Box>
           </Box>
           <Upload file={file} password={password} />
