@@ -37,7 +37,7 @@ export default function Submission(props) {
                 <Box sx={{ textAlign: "center" }}>
                   <Box sx={{ m: 1 }}>
                     <Typography variant="body1">
-                      The video doesn't have to be very long - briefly try to summarize the year 2021 in whatever way you see fit, and what you look forward to in 2022.
+                      The video doesn't have to be very long - briefly try to summarize the year 2021 in whatever way you see fit, and what you look forward to in 2022. Thank you!
                     </Typography>
                   </Box>
                   <Box sx={{ m: 1 }}>
