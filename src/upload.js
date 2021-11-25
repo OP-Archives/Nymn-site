@@ -1,4 +1,4 @@
-import { Box, Typography, Alert, Paper } from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import { useState } from "react";
 import Upload from "./utils/upload";
 import CustomButton from "./utils/CustomButton";
@@ -36,7 +36,7 @@ export default function UploadComponent(props) {
         Limit: 200 Mbs
       </Typography>
       {file && (
-        <Paper variant="outlined" sx={{ mt: 2, p: 2, textAlign: "center" }}>
+        <Box sx={{textAlign: "center"}}>
           <video src={URL.createObjectURL(file)} width="100%" height={300} controls />
           <Box sx={{ m: 1 }}>
             <Typography variant="body2">{file.name}</Typography>
@@ -45,7 +45,7 @@ export default function UploadComponent(props) {
             <Typography variant="body2">File Size: {(file.size / 1000 / 1000).toFixed(2)} Mbs</Typography>
           </Box>
           <Upload file={file} password={password} />
-        </Paper>
+        </Box>
       )}
     </Box>
   );

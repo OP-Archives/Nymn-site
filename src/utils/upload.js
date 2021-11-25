@@ -56,6 +56,7 @@ export default function Upload(props) {
           </Box>
           <Box sx={{ m: 1 }}>{uploadError && <Alert severity="error">{uploadError}</Alert>}</Box>
           <Box sx={{ m: 1 }}>{progress && <LinearProgressWithLabel value={progress} />}</Box>
+          <Box sx={{ m: 1 }}>{progress >= 100 && <Alert severity="success">Upload completed! You may exit now.</Alert>}</Box>
         </>
       )}
     </>

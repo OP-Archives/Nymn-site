@@ -1,4 +1,4 @@
-import { Box, Typography, Alert, Paper, TextField } from "@mui/material";
+import { Box, Typography, Alert, TextField } from "@mui/material";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import Upload from "./utils/upload";
@@ -21,43 +21,41 @@ export default function Record(props) {
   const debouncedOverlayHandler = useCallback(debounce(handleNameChange, 300), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
-      <Box sx={{ mt: 1, display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-        <Paper variant="outlined" sx={{ p: 2, textAlign: "center" }}>
-          <Box>
-            <TextField
-              sx={{ m: 2 }}
-              autoFocus
-              variant="outlined"
-              name="name"
-              placeholder="File name"
-              autoComplete="off"
-              autoCapitalize="off"
-              autoCorrect="off"
-              onChange={debouncedOverlayHandler}
-              margin="dense"
-            />
-          </Box>
-          {error && <Alert severity="error">{error}</Alert>}
-          <Typography variant="body2">Status: {status}</Typography>
-          {previewStream && previewStream.active && <VideoPreview stream={previewStream} />}
-          {mediaBlobUrl && !previewStream.active && <video src={mediaBlobUrl} controls width="50%" />}
-          <Box sx={{ display: "flex", mt: 1, justifyContent: "center" }}>
-            <Box sx={{ m: 1 }}>
-              <CustomButton disabled={name.length === 0 || status === "recording"} variant="contained" onClick={startRecording} color="nnys">
-                Start Recording
-              </CustomButton>
-            </Box>
-            <Box sx={{ m: 1 }}>
-              <CustomButton disabled={name.length === 0 || status !== "recording"} variant="contained" onClick={stopRecording} color="nnys">
-                Stop Recording
-              </CustomButton>
-            </Box>
-          </Box>
-          <Upload file={file} password={password} />
-        </Paper>
+    <Box sx={{ mt: 1, display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+      <Box>
+        <TextField
+          sx={{ m: 2 }}
+          autoFocus
+          variant="outlined"
+          name="name"
+          placeholder="Your Twitch Name"
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          onChange={debouncedOverlayHandler}
+          margin="dense"
+        />
       </Box>
-    </>
+      {error && <Alert severity="error">{error}</Alert>}
+      <Typography variant="body2">Status: {status}</Typography>
+      {previewStream && previewStream.active && <VideoPreview stream={previewStream} />}
+      {mediaBlobUrl && !previewStream.active && <video src={mediaBlobUrl} controls width="50%" />}
+      <Box sx={{ display: "flex", mt: 1, justifyContent: "center" }}>
+        <Box sx={{ m: 1 }}>
+          <CustomButton disabled={name.length === 0 || status === "recording"} variant="contained" onClick={startRecording} color="nnys">
+            Start Recording
+          </CustomButton>
+        </Box>
+        <Box sx={{ m: 1 }}>
+          <CustomButton disabled={name.length === 0 || status !== "recording"} variant="contained" onClick={stopRecording} color="nnys">
+            Stop Recording
+          </CustomButton>
+        </Box>
+      </Box>
+      <Box sx={{ textAlign: "center", width: "50%" }}>
+        <Upload file={file} password={password} />
+      </Box>
+    </Box>
   );
 }
 
