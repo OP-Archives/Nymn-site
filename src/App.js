@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider, responsiveFontSizes } from "@mui/material/s
 import { CssBaseline, styled } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import Submission from "./submission";
-import Merch from "./Merch";
+import Redirect from "./utils/Redirect";
 
 const channel = "nymn",
   twitchId = "62300805";
@@ -86,7 +86,8 @@ export default function App() {
               </Parent>
             }
           />
-          <Route exact path="/merch" element={<Merch />} />
+          <Route exact path="/merch" element={<Redirect redirect="https://nymn-official-merchandise.creator-spring.com" />} />
+          <Route exact path="/book" element={<Redirect redirect="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
