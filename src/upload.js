@@ -30,7 +30,7 @@ export default function UploadComponent(props) {
       {fileError && <Alert severity="error">{fileError}</Alert>}
       <CustomButton variant="contained" component="label" color="nnys" sx={{ mt: 1 }}>
         Choose a Video
-        <input onChange={changeFile} type="file" accept="video/*" hidden title="" value="" />
+        <input onChange={changeFile} type="file" accept="video/*,.mkv" hidden title="" value="" />
       </CustomButton>
       <Typography variant="caption" color="textSecondary">
         Limit: 200 Mbs
