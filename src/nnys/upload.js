@@ -1,7 +1,7 @@
 import { Box, Typography, Alert } from "@mui/material";
 import { useState } from "react";
-import Upload from "./utils/upload";
-import CustomButton from "./utils/CustomButton";
+import Upload from "../utils/upload";
+import CustomButton from "../utils/CustomButton";
 
 const MAX_FILE_SIZE = 200000000;
 

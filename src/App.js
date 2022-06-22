@@ -1,16 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Vods from "./vods/vods";
-import Navbar from "./navbar";
 import { createTheme, ThemeProvider, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline, styled } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import Submission from "./submission";
-import Redirect from "./utils/Redirect";
+import Vods from "./vods/Vods";
+import Navbar from "./navbar/navbar";
 import YoutubeVod from "./vods/YoutubeVod";
 import CustomVod from "./vods/CustomVod";
 import NotFound from "./utils/NotFound";
+import Submission from "./nnys/submission";
+import Redirect from "./utils/Redirect";
 
-const channel = "nymn",
+const channel = "Nymn",
   twitchId = "62300805",
   VODS_API_BASE = `https://archive.overpowered.tv/${channel.toLowerCase()}`;
 
@@ -54,7 +54,7 @@ export default function App() {
             path="*"
             element={
               <Parent>
-                <NotFound />
+                <NotFound channel={channel} />
               </Parent>
             }
           />
@@ -63,7 +63,7 @@ export default function App() {
             path="/"
             element={
               <Parent>
-                <Navbar />
+                <Navbar channel={channel} />
                 <Vods channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
               </Parent>
             }
@@ -73,7 +73,7 @@ export default function App() {
             path="/vods"
             element={
               <Parent>
-                <Navbar />
+                <Navbar channel={channel} />
                 <Vods channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
               </Parent>
             }
@@ -119,13 +119,13 @@ export default function App() {
             path="/submit"
             element={
               <Parent>
-                <Navbar />
+                <Navbar channel={channel} />
                 <Submission />
               </Parent>
             }
           />
-          <Route exact path="/merch" element={<Redirect redirect="https://nymn-official-merchandise.creator-spring.com" />} />
-          <Route exact path="/book" element={<Redirect redirect="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
+          <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
+          <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
@@ -139,4 +139,6 @@ const Parent = styled((props) => <div {...props} />)`
   bottom: 0;
   left: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;

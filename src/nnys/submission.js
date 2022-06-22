@@ -1,13 +1,13 @@
 import { useMediaQuery, Grid, Box, Paper, Typography } from "@mui/material";
-import Footer from "./utils/Footer";
-import NNYS_TITLE from "./assets/NNYS_TITLE.png";
+import Footer from "../utils/Footer";
+import NNYS_TITLE from "../assets/NNYS_TITLE.png";
 import { useState } from "react";
 import Auth from "./auth";
-import NNYS_MAIN from "./assets/NNYS_MAIN.jpg";
+import NNYS_MAIN from "../assets/NNYS_MAIN.jpg";
 import SimpleBar from "simplebar-react";
 import Record from "./record";
 import Upload from "./upload";
-import CustomButton from "./utils/CustomButton";
+import CustomButton from "../utils/CustomButton";
 
 export default function Submission(props) {
   const isMobile = useMediaQuery("(max-width: 800px)");

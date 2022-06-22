@@ -1,7 +1,6 @@
 import { styled, Link } from "@mui/material";
-import { forwardRef } from "react";
 
-const CustomLink = styled(forwardRef(({ ...props }, ref) => <Link {...props} ref={ref} />))`
+const CustomLink = styled((props) => <Link {...props} />)`
   &:hover {
     opacity: 50%;
   }

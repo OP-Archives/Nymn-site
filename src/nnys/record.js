@@ -1,9 +1,9 @@
 import { Box, Typography, Alert, TextField } from "@mui/material";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
-import Upload from "./utils/upload";
+import Upload from "../utils/upload";
 import { debounce } from "lodash";
-import CustomButton from "./utils/CustomButton";
+import CustomButton from "../utils/CustomButton";
 
 export default function Record(props) {
   const { password } = props;
