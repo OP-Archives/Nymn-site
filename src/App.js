@@ -2,13 +2,16 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline, styled } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import Vods from "./vods/Vods";
-import Navbar from "./navbar/navbar";
-import YoutubeVod from "./vods/YoutubeVod";
-import CustomVod from "./vods/CustomVod";
-import NotFound from "./utils/NotFound";
-import Submission from "./nnys/submission";
-import Redirect from "./utils/Redirect";
+import { lazy, Suspense } from "react";
+import Loading from "./utils/Loading";
+
+const Vods = lazy(() => import("./vods/Vods"));
+const Navbar = lazy(() => import("./navbar/navbar"));
+const YoutubeVod = lazy(() => import("./vods/YoutubeVod"));
+const CustomVod = lazy(() => import("./vods/CustomVod"));
+const NotFound = lazy(() => import("./utils/NotFound"));
+const Submission = lazy(() => import("./nnys/submission"));
+const Redirect = lazy(() => import("./utils/Redirect"));
 
 const channel = "Nymn",
   twitchId = "62300805",
@@ -49,84 +52,49 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <BrowserRouter>
-        <Routes>
-          <Route
-            path="*"
-            element={
-              <Parent>
-                <NotFound channel={channel} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/"
-            element={
-              <Parent>
-                <Navbar channel={channel} />
-                <Vods channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/vods"
-            element={
-              <Parent>
-                <Navbar channel={channel} />
-                <Vods channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/vods/:vodId"
-            element={
-              <Parent>
-                <YoutubeVod channel={channel} twitchId={twitchId} type="vod" VODS_API_BASE={VODS_API_BASE} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/live/:vodId"
-            element={
-              <Parent>
-                <YoutubeVod channel={channel} twitchId={twitchId} type="live" VODS_API_BASE={VODS_API_BASE} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/youtube/:vodId"
-            element={
-              <Parent>
-                <YoutubeVod channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/manual/:vodId"
-            element={
-              <Parent>
-                <CustomVod channel={channel} twitchId={twitchId} type="manual" VODS_API_BASE={VODS_API_BASE} />
-              </Parent>
-            }
-          />
-          <Route
-            exact
-            path="/submit"
-            element={
-              <Parent>
-                <Navbar channel={channel} />
-                <Submission />
-              </Parent>
-            }
-          />
-          <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
-          <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
-        </Routes>
+        <Parent>
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="*" element={<NotFound channel={channel} />} />
+              <Route
+                exact
+                path="/"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Vods channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/vods"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Vods channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />
+                  </>
+                }
+              />
+              <Route exact path="/vods/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} type="vod" VODS_API_BASE={VODS_API_BASE} />} />
+              <Route exact path="/live/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} type="live" VODS_API_BASE={VODS_API_BASE} />} />
+              <Route exact path="/youtube/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />} />
+              <Route exact path="/manual/:vodId" element={<CustomVod channel={channel} twitchId={twitchId} type="manual" VODS_API_BASE={VODS_API_BASE} />} />
+              <Route
+                exact
+                path="/submit"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Submission />
+                  </>
+                }
+              />
+              <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
+              <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
+            </Routes>
+          </Suspense>
+        </Parent>
       </BrowserRouter>
     </ThemeProvider>
   );
