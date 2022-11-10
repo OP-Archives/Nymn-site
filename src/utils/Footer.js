@@ -1,5 +1,8 @@
 import { styled, Typography, Box } from "@mui/material";
 import CustomLink from "./CustomLink";
+import GitInfo from 'react-git-info/macro';
+
+const gitInfo = GitInfo();
 
 const Footer = styled((props) => (
   <Box {...props}>
@@ -15,18 +18,13 @@ const Footer = styled((props) => (
         </Typography>
       </Box>
     </CustomLink>
-    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", mt: 1, mb: 1 }}>
-      <CustomLink href="https://twemoji.twitter.com/" rel="noopener noreferrer" target="_blank" sx={{ mr: 0.5 }}>
+    <CustomLink href={`${process.env.REACT_APP_GITHUB}/commit/${gitInfo.commit.shortHash}`} rel="noopener noreferrer" target="_blank">
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 1 }}>
         <Typography variant="caption" color="textSecondary">
-          Twemoji graphics made by Twitter and other contributors,
+          {`Build Version: ${gitInfo.commit.shortHash}`}
         </Typography>
-      </CustomLink>
-      <CustomLink href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">
-        <Typography variant="caption" color="textSecondary">
-          Licensed under CC-BY 4.0
-        </Typography>
-      </CustomLink>
-    </Box>
+      </Box>
+    </CustomLink>
   </Box>
 ))`
   display: flex;

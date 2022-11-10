@@ -14,9 +14,9 @@ const NotFound = lazy(() => import("./utils/NotFound"));
 const Submission = lazy(() => import("./nnys/submission"));
 const Redirect = lazy(() => import("./utils/Redirect"));
 
-const channel = "Nymn",
-  twitchId = "62300805",
-  VODS_API_BASE = `https://archive.overpowered.tv/${channel.toLowerCase()}`;
+const channel = process.env.REACT_APP_CHANNEL,
+  twitchId = process.env.REACT_APP_TWITCH_ID,
+  VODS_API_BASE = process.env.REACT_APP_VODS_API_BASE;
 
 export default function App() {
   let darkTheme = createTheme({
