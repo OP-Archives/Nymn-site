@@ -32,11 +32,11 @@ export default function UploadComponent(props) {
         Choose a Video
         <input onChange={changeFile} type="file" accept="video/*,.mkv" hidden title="" value="" />
       </CustomButton>
-      <Typography variant="caption" color="textSecondary">
-        Limit: 200 Mbs
+      <Typography variant="caption" color="textSecondary" sx={{ mt: 1 }}>
+        File size limit: 200Mb
       </Typography>
       {file && (
-        <Box sx={{textAlign: "center"}}>
+        <Box sx={{ textAlign: "center" }}>
           <video src={URL.createObjectURL(file)} width="100%" height={300} controls />
           <Box sx={{ m: 1 }}>
             <Typography variant="body2">{file.name}</Typography>

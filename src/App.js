@@ -82,16 +82,7 @@ export default function App() {
               <Route exact path="/youtube/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />} />
               <Route exact path="/games/:vodId" element={<Games channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />} />
               <Route exact path="/manual/:vodId" element={<CustomVod channel={channel} twitchId={twitchId} type="manual" VODS_API_BASE={VODS_API_BASE} />} />
-              <Route
-                exact
-                path="/submit"
-                element={
-                  <>
-                    <Navbar channel={channel} />
-                    <Submission />
-                  </>
-                }
-              />
+              <Route exact path="/submit" element={<Submission />} />
               <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
               <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
             </Routes>
