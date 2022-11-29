@@ -35,12 +35,12 @@ export default function Submission(props) {
               <Box sx={{ textAlign: "center" }}>
                 <Box sx={{ m: 1 }}>
                   <Typography variant="body1">
-                    The video doesn't have to be very long - briefly try to summarize the year 2021 in whatever way you see fit, and what you look forward to in 2023. Thank you!
+                    The video doesn't have to be very long - briefly try to summarize the year 2022 in whatever way you see fit, and what you look forward to in 2023. Thank you!
                   </Typography>
                 </Box>
                 <Box sx={{ m: 1 }}>
                   <Typography color="red" variant="body1" sx={{ fontWeight: "bold" }}>
-                    Latest date for submission: DECEMBER 20, 2022.
+                    Latest date for submission: DECEMBER 18, 2022.
                   </Typography>
                 </Box>
               </Box>
