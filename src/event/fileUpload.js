@@ -4,7 +4,7 @@ import { Alert, Box, LinearProgress, Typography } from "@mui/material";
 import CustomButton from "../utils/CustomButton";
 import client from "./client";
 
-const MAX_FILE_SIZE = 50000000;
+const MAX_FILE_SIZE = 300000000;
 
 export default function Upload(props) {
   const { file } = props;

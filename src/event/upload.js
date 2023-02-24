@@ -3,7 +3,7 @@ import { useState } from "react";
 import Upload from "./fileUpload";
 import CustomButton from "../utils/CustomButton";
 
-const MAX_FILE_SIZE = 50000000;
+const MAX_FILE_SIZE = 300000000;
 
 export default function UploadComponent(props) {
   const [fileError, setFileError] = useState(null);
