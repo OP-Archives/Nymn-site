@@ -1,7 +1,7 @@
 import { Box, Typography, Alert, TextField } from "@mui/material";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
-import Upload from "../utils/upload";
+import Upload from "./fileUpload";
 import { debounce } from "lodash";
 import CustomButton from "../utils/CustomButton";
 

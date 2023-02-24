@@ -13,6 +13,7 @@ const CustomVod = lazy(() => import("./vods/CustomVod"));
 const NotFound = lazy(() => import("./utils/NotFound"));
 const Submission = lazy(() => import("./nnys/submission"));
 const Redirect = lazy(() => import("./utils/Redirect"));
+const Event = lazy(() => import("./event/submission"));
 
 const channel = process.env.REACT_APP_CHANNEL,
   twitchId = process.env.REACT_APP_TWITCH_ID,
@@ -85,6 +86,7 @@ export default function App() {
               <Route exact path="/submit" element={<Submission />} />
               <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
               <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
+              <Route exact path="/event" element={<Event />} />
             </Routes>
           </Suspense>
         </Parent>

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@feathersjs/client": "^4.5.15",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.12",
     "@mui/styled-engine-sc": "^5.10.6",
@@ -24,6 +25,7 @@
     "react-twemoji": "^0.5.0",
     "react-youtube": "^10.0.0",
     "simplebar-react": "^2.4.3",
+    "socket.io-client": "^2.4.0",
     "styled-components": "^5.3.6",
     "tinyduration": "^3.2.3",
     "video.js": "^7.20.3",

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Alert, Box, LinearProgress, Typography } from "@mui/material";
-import CustomButton from "./CustomButton";
+import CustomButton from "../utils/CustomButton";
 
 const MAX_FILE_SIZE = 200000000;
 
@@ -14,7 +14,6 @@ export default function Upload(props) {
   const upload = async (evt) => {
     setUploadError(false);
     setProgress(null);
-    console.log(file);
     if (file.type.split("/")[0] !== "video" || file.size > MAX_FILE_SIZE) return;
 
     setUploading(true);

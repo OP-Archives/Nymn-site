@@ -3,10 +3,9 @@ import { useState } from "react";
 import Upload from "./fileUpload";
 import CustomButton from "../utils/CustomButton";
 
-const MAX_FILE_SIZE = 200000000;
+const MAX_FILE_SIZE = 50000000;
 
 export default function UploadComponent(props) {
-  const { password } = props;
   const [fileError, setFileError] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -20,7 +19,7 @@ export default function UploadComponent(props) {
 
     if (tmpFile.size > MAX_FILE_SIZE) {
       setFile(null);
-      return setFileError(`File size is too big! Limit: 200 Mbs`);
+      return setFileError(`File size is too big! Limit: ${MAX_FILE_SIZE / 1000 / 1000} Mbs`);
     }
     setFile(evt.target.files[0]);
   };
@@ -33,7 +32,7 @@ export default function UploadComponent(props) {
         <input onChange={changeFile} type="file" accept="video/*,.mkv" hidden title="" value="" />
       </CustomButton>
       <Typography variant="caption" color="textSecondary" sx={{ mt: 1 }}>
-        File size limit: 200Mb
+        File size limit: {MAX_FILE_SIZE / 1000 / 1000} MB
       </Typography>
       {file && (
         <Box sx={{ textAlign: "center" }}>
@@ -44,7 +43,7 @@ export default function UploadComponent(props) {
           <Box sx={{ m: 1 }}>
             <Typography variant="body2">File Size: {(file.size / 1000 / 1000).toFixed(2)} Mbs</Typography>
           </Box>
-          <Upload file={file} password={password} />
+          <Upload file={file} />
         </Box>
       )}
     </Box>
