@@ -3,9 +3,12 @@ import SimpleBar from "simplebar-react";
 import Upload from "./upload";
 import { useState, useEffect } from "react";
 import client from "./client";
+import LinkSubmission from "./LinkSubmission";
+import CustomButton from "../utils/CustomButton";
 
 export default function Submission(props) {
   const [user, setUser] = useState(undefined);
+  const [component, setComponent] = useState(null);
 
   useEffect(() => {
     client.authenticate().catch(() => setUser(null));
@@ -46,7 +49,19 @@ export default function Submission(props) {
                 </Button>
               )}
             </Box>
-            <Box sx={{ mt: 2 }}>{user && <Upload />}</Box>
+            <Box sx={{ display: "flex", mb: 2 }}>
+              <Box sx={{ m: 1 }}>
+                <CustomButton variant="contained" onClick={() => setComponent("link")} color="nnys">
+                  Submit a Link
+                </CustomButton>
+              </Box>
+              <Box sx={{ m: 1 }}>
+                <CustomButton variant="contained" onClick={() => setComponent("upload")} color="nnys">
+                  Upload
+                </CustomButton>
+              </Box>
+            </Box>
+            {component === "link" ? <LinkSubmission /> : component === "upload" ? <Upload /> : <></>}
           </Paper>
         </Box>
       </Box>
