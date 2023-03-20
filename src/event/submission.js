@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import client from "./client";
 import LinkSubmission from "./LinkSubmission";
 import CustomButton from "../utils/CustomButton";
+import Loading from "../utils/Loading";
 
 export default function Submission(props) {
   const [user, setUser] = useState(undefined);
@@ -29,13 +30,15 @@ export default function Submission(props) {
     window.location.href = "https://api.nymn.gg/oauth/twitch";
   };
 
+  if (user === undefined) return <Loading />;
+
   return (
     <SimpleBar style={{ minHeight: 0, height: "100%" }}>
       <Box sx={{ height: "100%", alignItems: "center", display: "flex", flexDirection: "column" }}>
         <Box sx={{ maxWidth: "900px", mb: 5, p: 1 }}>
           <Paper variant="outlined" sx={{ p: 2, display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-            <Box sx={{ textAlign: "center" }}>
-              {!user && (
+            {!user && (
+              <Box sx={{ textAlign: "center" }}>
                 <Button
                   variant="contained"
                   onClick={login}
@@ -47,20 +50,22 @@ export default function Submission(props) {
                 >
                   Connect
                 </Button>
-              )}
-            </Box>
-            <Box sx={{ display: "flex", mb: 2 }}>
-              <Box sx={{ m: 1 }}>
-                <CustomButton variant="contained" onClick={() => setComponent("link")} color="nnys">
-                  Submit a Link
-                </CustomButton>
               </Box>
-              <Box sx={{ m: 1 }}>
-                <CustomButton variant="contained" onClick={() => setComponent("upload")} color="nnys">
-                  Upload
-                </CustomButton>
+            )}
+            {user && (
+              <Box sx={{ display: "flex", mb: 2 }}>
+                <Box sx={{ m: 1 }}>
+                  <CustomButton variant="contained" onClick={() => setComponent("link")} color="nnys">
+                    Submit a Link
+                  </CustomButton>
+                </Box>
+                <Box sx={{ m: 1 }}>
+                  <CustomButton variant="contained" onClick={() => setComponent("upload")} color="nnys">
+                    Upload
+                  </CustomButton>
+                </Box>
               </Box>
-            </Box>
+            )}
             {component === "link" ? <LinkSubmission /> : component === "upload" ? <Upload /> : <></>}
           </Paper>
         </Box>
