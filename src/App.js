@@ -2,8 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline, styled } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import Loading from "./utils/Loading";
+import client from "./contests/client";
 
 const Vods = lazy(() => import("./vods/Vods"));
 const Navbar = lazy(() => import("./navbar/navbar"));
@@ -13,14 +14,17 @@ const CustomVod = lazy(() => import("./vods/CustomVod"));
 const NotFound = lazy(() => import("./utils/NotFound"));
 const Submission = lazy(() => import("./nnys/submission"));
 const Redirect = lazy(() => import("./utils/Redirect"));
-const Event = lazy(() => import("./event/submission"));
-const EventView = lazy(() => import("./event/ViewSubmissions"));
+const Contests = lazy(() => import("./contests/Contests"));
+const Manage = lazy(() => import("./contests/manage"));
+const Winners = lazy(() => import("./contests/winners"));
 
 const channel = process.env.REACT_APP_CHANNEL,
   twitchId = process.env.REACT_APP_TWITCH_ID,
   VODS_API_BASE = process.env.REACT_APP_VODS_API_BASE;
 
 export default function App() {
+  const [user, setUser] = useState(undefined);
+
   let darkTheme = createTheme({
     palette: {
       mode: "dark",
@@ -50,6 +54,21 @@ export default function App() {
   });
 
   darkTheme = responsiveFontSizes(darkTheme);
+
+  useEffect(() => {
+    client.authenticate().catch(() => setUser(null));
+
+    client.on("authenticated", (paramUser) => {
+      setUser(paramUser.user);
+    });
+
+    client.on("logout", () => {
+      setUser(null);
+      window.location.href = "/";
+    });
+
+    return;
+  }, [user]);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -87,8 +106,36 @@ export default function App() {
               <Route exact path="/submit" element={<Submission />} />
               <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
               <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
-              <Route exact path="/event" element={<Event />} />
-              <Route exact path="/event/view" element={<EventView />} />
+              <Route
+                exact
+                path="/contests"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Contests user={user} channel={channel} />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/contests/:contestId/manage"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Manage user={user} channel={channel} />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/contests/:contestId/winners"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Winners user={user} channel={channel} />
+                  </>
+                }
+              />
             </Routes>
           </Suspense>
         </Parent>

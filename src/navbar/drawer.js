@@ -9,10 +9,12 @@ import HomeIcon from "@mui/icons-material/Home";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import StoreIcon from "@mui/icons-material/Store";
 import ReportIcon from "@mui/icons-material/Report";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const mainLinks = [
   { title: `Home`, path: `/`, icon: <HomeIcon color="primary" /> },
   { title: `Vods`, path: `/vods`, icon: <OndemandVideoIcon color="primary" /> },
+  { title: `Contests`, path: `/contests`, icon: <EmojiEventsIcon color="primary" /> },
   { title: `Merch`, path: `https://nymn-official-merchandise.creator-spring.com/`, icon: <StoreIcon color="primary" /> },
   { title: `Report an Issue`, path: `${process.env.REACT_APP_GITHUB}/issues`, icon: <ReportIcon color="primary" /> },
 ];

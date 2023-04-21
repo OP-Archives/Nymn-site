@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 import feathers from "@feathersjs/client";
 
-const socket = io("https://api.nymn.gg");
+const socket = io("https://contests.nymn.gg");
 const client = feathers();
 
 client.configure(
