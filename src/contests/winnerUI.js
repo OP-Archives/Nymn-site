@@ -57,7 +57,7 @@ export default function Winners(props) {
       });
     }
 
-    await fetch(`https://api.nymn.gg/v1/challonge`, {
+    await fetch(`https://contests.nymn.gg/v1/challonge`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
