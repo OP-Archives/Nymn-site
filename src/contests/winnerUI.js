@@ -83,14 +83,7 @@ export default function Winners(props) {
     if (!matches) return;
 
     const getSubmission = (id) => {
-      let data;
-      for (let submission of submissions) {
-        if (parseInt(submission.id) === id || parseInt(submission.userId) === id) {
-          data = submission;
-          break;
-        }
-      }
-      return data;
+      return submissions.find((submission) => parseInt(submission.userId) === id);
     };
 
     let maxRounds = 0,
