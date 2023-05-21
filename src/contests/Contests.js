@@ -12,7 +12,6 @@ const OAUTH_LOGIN = `https://contests.nymn.gg/oauth/twitch`;
 export default function Contests(props) {
   const isMobile = useMediaQuery("(max-width: 800px)");
   const [contests, setContests] = useState(undefined);
-  const [submittedContests, setSubmittedContests] = useState([]);
   const { user, channel } = props;
 
   useEffect(() => {
@@ -34,25 +33,6 @@ export default function Contests(props) {
     fetchContests();
     return;
   }, [channel]);
-
-  //If user has submitted in a contest, store in state to allow editing.
-  useEffect(() => {
-    if (!user) return;
-    const fetchSubmittedContests = async () => {
-      await client
-        .service("submissions")
-        .find({
-          query: {
-            userId: user.id,
-          },
-        })
-        .then((res) => {
-          setSubmittedContests(res);
-        });
-    };
-    fetchSubmittedContests();
-    return;
-  }, [user]);
 
   const login = () => {
     window.location.href = OAUTH_LOGIN;
@@ -111,7 +91,6 @@ export default function Contests(props) {
 
               <Box sx={{ mt: 2, width: `${isMobile ? "100%" : "50%"}` }}>
                 {ongoingContests.map((data, _) => {
-                  const userSubmission = submittedContests.find((submission) => submission.contestId === data.id);
                   return (
                     <Paper key={data.id} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 4, mt: 2 }}>
                       <Box>
@@ -134,7 +113,7 @@ export default function Contests(props) {
                           </>
                         )}
                         <Box sx={{ p: 1 }}>
-                          <IsolatedModal type={userSubmission ? "Modify" : "Submit"} user={user} contest={data} submission={userSubmission} />
+                          <IsolatedModal type={"Submit"} user={user} contest={data} />
                         </Box>
                       </Box>
                     </Paper>
