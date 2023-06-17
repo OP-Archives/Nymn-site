@@ -109,7 +109,7 @@ export default function Games(props) {
                 <Box sx={{ ml: 0.5 }}>
                   {drive && drive[0] && (
                     <Tooltip title={`Download Vod`}>
-                      <IconButton component={Link} href={`https://drive.google.com/u/2/open?id=${drive[0].id}`} color="secondary" aria-label="Download Vod" rel="noopener noreferrer" target="_blank">
+                      <IconButton component={Link} href={`https://drive.google.com/u/2/open?id=${drive[0].id}`} color="primary" aria-label="Download Vod" rel="noopener noreferrer" target="_blank">
                         <CloudDownloadIcon />
                       </IconButton>
                     </Tooltip>
