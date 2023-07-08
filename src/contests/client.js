@@ -1,14 +1,10 @@
 import io from "socket.io-client";
 import feathers from "@feathersjs/client";
 
-const socket = io("https://contests.nymn.gg");
+const socket = io(process.env.REACT_APP_CONTESTS_API);
 const client = feathers();
 
-client.configure(
-  feathers.socketio(socket, {
-    timeout: 10 * 1000,
-  })
-);
+client.configure(feathers.socketio(socket));
 client.configure(
   feathers.authentication({
     storage: window.localStorage,

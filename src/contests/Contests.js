@@ -7,7 +7,7 @@ import Footer from "../utils/Footer";
 import Loading from "../utils/Loading";
 import IsolatedModal from "./IsolatedModal";
 
-const OAUTH_LOGIN = `https://contests.nymn.gg/oauth/twitch`;
+const OAUTH_LOGIN = `${process.env.REACT_APP_CONTESTS_API}/oauth/twitch`;
 
 export default function Contests(props) {
   const isMobile = useMediaQuery("(max-width: 800px)");
