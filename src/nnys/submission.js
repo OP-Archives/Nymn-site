@@ -23,7 +23,7 @@ export default function Submission(props) {
   };
 
   return (
-    <SimpleBar style={{ minHeight: 0, height: "100%", backgroundImage: `url(${NNYS_MAIN}))`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+    <SimpleBar style={{ minHeight: 0, height: "100%", backgroundImage: `url(${NNYS_MAIN})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
       <Box sx={{ height: "100%", alignItems: "center", display: "flex", flexDirection: "column" }}>
         <img alt="" src={NNYS_TITLE} style={{ width: isMobile ? "100%" : "50%" }} />
         {password.length === 0 ? (
