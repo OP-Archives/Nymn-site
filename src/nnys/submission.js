@@ -1,8 +1,9 @@
 import { useMediaQuery, Box, Paper, Typography } from "@mui/material";
-import NNYS_TITLE from "../assets/nnys/NNYS_Logo_3D_Color1.png";
+import NNYS_TITLE from "../assets/nnys/nnyslogo.png";
 import { useState } from "react";
 import Auth from "./auth";
-import NNYS_MAIN from "../assets/nnys/Background.png";
+import NNYS_MAIN from "../assets/nnys/nnysmain.png";
+//import NNYS_SUBMIT from "../assets/nnys/nnyssubmit.png";
 import SimpleBar from "simplebar-react";
 import Record from "./record";
 import Upload from "./upload";
@@ -22,7 +23,7 @@ export default function Submission(props) {
   };
 
   return (
-    <SimpleBar style={{ minHeight: 0, height: "100%", backgroundImage: `url(${NNYS_MAIN})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+    <SimpleBar style={{ minHeight: 0, height: "100%", backgroundImage: `url(${NNYS_MAIN}))`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
       <Box sx={{ height: "100%", alignItems: "center", display: "flex", flexDirection: "column" }}>
         <img alt="" src={NNYS_TITLE} style={{ width: isMobile ? "100%" : "50%" }} />
         {password.length === 0 ? (
@@ -35,12 +36,12 @@ export default function Submission(props) {
               <Box sx={{ textAlign: "center" }}>
                 <Box sx={{ m: 1 }}>
                   <Typography variant="body1">
-                    The video doesn't have to be very long - briefly try to summarize the year 2022 in whatever way you see fit, and what you look forward to in 2023. Thank you!
+                    The video doesn't have to be very long - briefly try to summarize the year 2023 in whatever way you see fit, and what you look forward to in 2024. Thank you!
                   </Typography>
                 </Box>
                 <Box sx={{ m: 1 }}>
                   <Typography color="red" variant="body1" sx={{ fontWeight: "bold" }}>
-                    Latest date for submission: DECEMBER 18, 2022.
+                    Latest date for submission: DECEMBER 18, 2023.
                   </Typography>
                 </Box>
               </Box>
