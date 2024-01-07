@@ -4,7 +4,7 @@ import { CssBaseline, styled } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { lazy, Suspense, useState, useEffect } from "react";
 import Loading from "./utils/Loading";
-import client from "./contests/client";
+import client from "./client";
 
 const Vods = lazy(() => import("./vods/Vods"));
 const Navbar = lazy(() => import("./navbar/navbar"));
@@ -17,6 +17,7 @@ const Redirect = lazy(() => import("./utils/Redirect"));
 const Contests = lazy(() => import("./contests/Contests"));
 const Manage = lazy(() => import("./contests/manage"));
 const Winners = lazy(() => import("./contests/winners"));
+const Reviews = lazy(() => import("./reviews/Reviews"));
 
 const channel = process.env.REACT_APP_CHANNEL,
   twitchId = process.env.REACT_APP_TWITCH_ID,
@@ -134,6 +135,16 @@ export default function App() {
                   <>
                     <Navbar channel={channel} />
                     <Winners user={user} channel={channel} />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/reviews"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Reviews user={user} channel={channel} />
                   </>
                 }
               />

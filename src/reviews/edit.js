@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { Typography, Button, Box, TextField, Switch, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Typography, Button, Box, TextField, Switch } from "@mui/material";
 import logo from "../assets/logo.gif";
 import { Alert } from "@mui/material";
 import client from "../client";
 import Loading from "../utils/Loading";
 
 export default function Edit(props) {
-  const { contest, user } = props;
+  const { review, user } = props;
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const [title, setTitle] = useState(contest.title);
-  const [active, setActive] = useState(contest.active);
-  const [submission, setSubmission] = useState(contest.submission);
-  const [type, setType] = useState(contest.type);
+  const [title, setTitle] = useState(review.title);
+  const [active, setActive] = useState(review.active);
+  const [submission, setSubmission] = useState(review.submission);
 
   const handleTitleChange = (evt) => {
     setTitle(evt.target.value);
@@ -29,12 +28,11 @@ export default function Edit(props) {
   const handleEdit = (evt) => {
     if (evt) evt.preventDefault();
     return client
-      .service("contests")
-      .patch(contest.id, {
+      .service("reviews")
+      .patch(review.id, {
         title: title,
         active: active,
         submission: submission,
-        type: type,
       })
       .then(() => {
         window.location.reload();
@@ -50,18 +48,9 @@ export default function Edit(props) {
     if (evt) evt.preventDefault();
     const confirmDialog = window.confirm("Are you sure?");
     if (confirmDialog) {
-      await client
-        .service("matches")
-        .remove(null, {
-          query: { contestId: contest.id },
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-
       return client
-        .service("contests")
-        .remove(contest.id)
+        .service("reviews")
+        .remove(review.id)
         .then(() => {
           window.location.reload();
         })
@@ -73,18 +62,14 @@ export default function Edit(props) {
     }
   };
 
-  const handleTypeChange = (event) => {
-    setType(event.target.value);
-  };
-
   if (user === undefined) return <Loading />;
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
       <img alt="" src={logo} sx={{ height: "auto", width: "100%" }} />
       <Typography variant="h4" fontWeight={600} sx={{ textTransform: "uppercase", mt: 1 }} color="primary">{`Edit`}</Typography>
-      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase", mt: 1 }}>{`Contest ID: ${contest.id}`}</Typography>
-      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase" }}>{`${contest.title}`}</Typography>
+      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase", mt: 1 }}>{`Review ID: ${review.id}`}</Typography>
+      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase" }}>{`${review.title}`}</Typography>
       {error && (
         <Alert sx={{ mt: 1 }} severity="error">
           {errorMsg}
@@ -102,31 +87,19 @@ export default function Edit(props) {
           autoCapitalize="off"
           autoCorrect="off"
           autoFocus
-          defaultValue={contest.title}
+          defaultValue={review.title}
           onChange={handleTitleChange}
         />
-        <FormControl variant="outlined" fullWidth sx={{ mt: 1 }}>
-          <InputLabel id="select-label">Type</InputLabel>
-          <Select labelId="select-label" label="Type" value={type} onChange={handleTypeChange} fullWidth>
-            <MenuItem value="alert">Alert</MenuItem>
-          </Select>
-        </FormControl>
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
           <Switch checked={active} onChange={handleActiveChange} />
-          <Typography variant="body1">Active Contest</Typography>
+          <Typography variant="body1">Active</Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Switch checked={submission} onChange={handleSubmissionChange} />
           <Typography variant="body1">Allow Submissions</Typography>
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            onClick={handleEdit}
-            disabled={title === contest.title && submission === contest.submission && active === contest.active && type === contest.type}
-          >
+          <Button type="submit" variant="contained" fullWidth onClick={handleEdit} disabled={title === review.title && submission === review.submission && active === review.active}>
             Edit
           </Button>
         </Box>
