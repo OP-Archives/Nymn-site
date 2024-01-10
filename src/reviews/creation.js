@@ -11,6 +11,7 @@ export default function Creation(props) {
   const [title, setTitle] = useState("");
   const [active, setActive] = useState(true);
   const [submission, setSubmission] = useState(true);
+  const [description, setDescription] = useState("");
 
   const handleTitleChange = (evt) => {
     setTitle(evt.target.value);
@@ -24,6 +25,10 @@ export default function Creation(props) {
     setSubmission(!submission);
   };
 
+  const handleDescriptonChange = (evt) => {
+    setDescription(evt.target.value);
+  };
+
   const handleCreate = (evt) => {
     if (evt) evt.preventDefault();
     return client
@@ -32,6 +37,7 @@ export default function Creation(props) {
         title: title,
         active: active,
         submission: submission,
+        description: description,
       })
       .then(() => {
         window.location.reload();
@@ -58,6 +64,19 @@ export default function Creation(props) {
       )}
       <form noValidate>
         <TextField variant="outlined" margin="normal" required fullWidth label="Title" name="title" autoComplete="off" autoCapitalize="off" autoCorrect="off" autoFocus onChange={handleTitleChange} />
+        <TextField
+          multiline
+          rows={4}
+          variant="filled"
+          margin="normal"
+          fullWidth
+          label="Description"
+          name="Description"
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          onChange={handleDescriptonChange}
+        />
         <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>
           <Switch checked={active} onChange={handleActiveChange} />
           <Typography variant="body1">Active</Typography>

@@ -12,6 +12,8 @@ export default function Edit(props) {
   const [title, setTitle] = useState(review.title);
   const [active, setActive] = useState(review.active);
   const [submission, setSubmission] = useState(review.submission);
+  const [description, setDescription] = useState(review.description);
+  console.log(description);
 
   const handleTitleChange = (evt) => {
     setTitle(evt.target.value);
@@ -25,6 +27,10 @@ export default function Edit(props) {
     setSubmission(!submission);
   };
 
+  const handleDescriptonChange = (evt) => {
+    setDescription(evt.target.value);
+  };
+
   const handleEdit = (evt) => {
     if (evt) evt.preventDefault();
     return client
@@ -33,6 +39,7 @@ export default function Edit(props) {
         title: title,
         active: active,
         submission: submission,
+        description: description,
       })
       .then(() => {
         window.location.reload();
@@ -90,6 +97,20 @@ export default function Edit(props) {
           defaultValue={review.title}
           onChange={handleTitleChange}
         />
+        <TextField
+          multiline
+          rows={4}
+          variant="filled"
+          margin="normal"
+          fullWidth
+          label="Description"
+          name="Description"
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          defaultValue={review.description}
+          onChange={handleDescriptonChange}
+        />
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
           <Switch checked={active} onChange={handleActiveChange} />
           <Typography variant="body1">Active</Typography>
@@ -99,7 +120,13 @@ export default function Edit(props) {
           <Typography variant="body1">Allow Submissions</Typography>
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Button type="submit" variant="contained" fullWidth onClick={handleEdit} disabled={title === review.title && submission === review.submission && active === review.active}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            onClick={handleEdit}
+            disabled={title === review.title && submission === review.submission && active === review.active && description === review.description}
+          >
             Edit
           </Button>
         </Box>

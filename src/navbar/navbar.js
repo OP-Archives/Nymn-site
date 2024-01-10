@@ -89,6 +89,16 @@ export default function Navbar(props) {
                 </CustomLink>
               </Box>
               <Box sx={{ mr: 2 }}>
+                <CustomLink href="/review">
+                  <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <EmojiEventsIcon color="primary" sx={{ mr: 0.5 }} />
+                    <Typography color="primary" variant="h6">
+                      Friday Reviews
+                    </Typography>
+                  </Box>
+                </CustomLink>
+              </Box>
+              <Box sx={{ mr: 2 }}>
                 <CustomLink href="/contests">
                   <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <EmojiEventsIcon color="primary" sx={{ mr: 0.5 }} />

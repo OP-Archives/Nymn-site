@@ -15,7 +15,7 @@ export default function Reviews(props) {
   const { user, channel } = props;
 
   useEffect(() => {
-    document.title = `Reviews - ${channel}`;
+    document.title = `Friday Reviews - ${channel}`;
     const fetchReviews = async () => {
       await client
         .service("reviews")
@@ -40,7 +40,13 @@ export default function Reviews(props) {
 
   if (user === undefined || reviews === undefined) return <Loading />;
 
-  const ongoingReviews = reviews.filter((review) => review.active);
+  //display only active reviews if not mod/admin
+  let reviewsToDisplay;
+  if (user && (user.type === "admin" || user.type === "mod")) {
+    reviewsToDisplay = reviews;
+  } else {
+    reviewsToDisplay = reviews.filter((review) => review.active);
+  }
 
   return (
     <SimpleBar style={{ minHeight: 0, height: "100%" }}>
@@ -82,27 +88,23 @@ export default function Reviews(props) {
         <Box sx={{ p: 2, width: "100%" }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="h4" fontWeight={600} color="primary" sx={{ textTransform: "uppercase" }}>
-                  Upcoming Friday Review
-                </Typography>
-              </Box>
-
               <Box sx={{ mt: 2, width: `${isMobile ? "100%" : "50%"}` }}>
-                {ongoingReviews.map((data, _) => {
+                {reviewsToDisplay.map((data, _) => {
                   return (
                     <Paper key={data.id} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 4, mt: 2 }}>
                       <Box>
-                        <Typography variant="body2" color="textSecondary">{`${new Date(data.createdAt).toLocaleDateString()}`}</Typography>
-                        <Typography variant="h6" sx={{ textTransform: "uppercase" }} color="primary">{`Review`}</Typography>
-                        <Typography variant="h5" sx={{ textTransform: "uppercase", mt: 2 }}>{`${data.title}`}</Typography>
-                        <Typography variant="h6" sx={{ textTransform: "uppercase", mt: 2 }} color="primary">{`${data.review_submissions.length} Submissions`}</Typography>
+                        <Typography variant="body2" color="red" sx={{ textTransform: "uppercase" }}>
+                          {data.active ? "Active" : "Inactive"}
+                        </Typography>
+                        <Typography variant="h5" sx={{ textTransform: "uppercase" }} color="primary">{`${data.title}`}</Typography>
+                        <Typography variant="h6" sx={{ mt: 1 }}>{`${data.description ?? ""}`}</Typography>
+                        <Typography variant="h6" sx={{ textTransform: "uppercase", mt: 1 }} color="primary">{`${data.review_submissions.length} Submissions`}</Typography>
                       </Box>
                       <Box sx={{ display: "flex", flexDirection: isMobile ? "column" : "row" }}>
                         {user && (user.type === "admin" || user.type === "mod") && (
                           <>
                             <Box sx={{ p: 1 }}>
-                              <Button href={`/reviews/${data.id}/manage`} variant="contained" color="error">
+                              <Button href={`/review/${data.id}/manage`} variant="contained" color="error">
                                 Manage
                               </Button>
                             </Box>

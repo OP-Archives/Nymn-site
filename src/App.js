@@ -18,6 +18,7 @@ const Contests = lazy(() => import("./contests/Contests"));
 const Manage = lazy(() => import("./contests/manage"));
 const Winners = lazy(() => import("./contests/winners"));
 const Reviews = lazy(() => import("./reviews/Reviews"));
+const ManageReviews = lazy(() => import("./reviews/manage"));
 
 const channel = process.env.REACT_APP_CHANNEL,
   twitchId = process.env.REACT_APP_TWITCH_ID,
@@ -140,11 +141,21 @@ export default function App() {
               />
               <Route
                 exact
-                path="/reviews"
+                path="/review"
                 element={
                   <>
                     <Navbar channel={channel} />
                     <Reviews user={user} channel={channel} />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/review/:reviewId/manage"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <ManageReviews user={user} channel={channel} />
                   </>
                 }
               />

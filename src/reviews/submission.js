@@ -8,20 +8,16 @@ import Loading from "../utils/Loading";
 export default function Creation(props) {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
-  const [video, setVideo] = useState(undefined);
+  const [file, setFile] = useState(undefined);
   const [linkError, setLinkError] = useState(false);
   const [linkErrorMsg, setLinkErrorMsg] = useState(undefined);
   const [commentError, setCommentError] = useState(false);
   const [commentErrorMsg, setCommentErrorMsg] = useState(undefined);
   const [source, setSource] = useState(1);
   const [link, setLink] = useState("");
-  const { type, submission, contest, user } = props;
-
-  const handleTitleChange = (evt) => {
-    setTitle(evt.target.value);
-  };
+  const [fileType, setFileType] = useState(1);
+  const { type, submission, review, user } = props;
 
   const handleCommentChange = (evt) => {
     setCommentError(false);
@@ -41,49 +37,76 @@ export default function Creation(props) {
   useEffect(() => {
     if (link.length === 0) return;
     setLinkError(false);
-    const regex =
-      contest.type === "alert" && source === 1
-        ? //eslint-disable-next-line
-          /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/|shorts\/|clip\/)?)([\w\-]+)(\S+)?$/
-        : contest.type === "alert" && source === 2
-        ? /https:\/\/(?:clips|www)\.twitch\.tv\/(?:(?:[a-z]+)\/clip\/)?([^?#]+).*$/
-        : contest.type === "alert" && source === 3
-        ? /https:\/\/(?:www\.)?streamable\.com\/([a-zA-Z0-9]*)$/
-        : null;
+    let regexToUse;
 
-    if (!regex.test(link)) {
+    //image
+    if (fileType === 1) {
+      switch (source) {
+        case 1:
+          regexToUse = /https:\/\/(?:i\.)?imgur\.com\/(.*)(?:\..*)$/;
+          break;
+        default:
+          regexToUse = null;
+          break;
+      }
+    }
+    //video
+    else if (fileType === 2) {
+      switch (source) {
+        case 1:
+          //eslint-disable-next-line
+          regexToUse = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/|shorts\/|clip\/)?)([\w\-]+)(\S+)?$/;
+          break;
+        case 2:
+          regexToUse = /https:\/\/(?:www\.)?streamable\.com\/([a-zA-Z0-9]*)$/;
+          break;
+        default:
+          regexToUse = null;
+          break;
+      }
+    }
+
+    if (!regexToUse.test(link)) {
       setLinkError(true);
       setLinkErrorMsg("Link is not valid!");
-      setVideo(null);
+      setFile(null);
       return;
     }
 
     let newLink = link.valueOf();
-    const linkSplit = newLink.split(regex);
-    setVideo({
-      id: contest.type === "alert" && source === 1 ? linkSplit[5] : contest.type === "alert" && source === 2 ? linkSplit[1] : contest.type === "alert" && source === 3 ? linkSplit[1] : null,
-      link: link,
-      source: contest.type === "alert" && source === 1 ? "youtube" : contest.type === "alert" && source === 2 ? "twitch" : contest.type === "alert" && source === 3 ? "streamable" : null,
-    });
-  }, [link, contest, source]);
+    const linkSplit = newLink.split(regexToUse);
+
+    if (fileType === 1) {
+      setFile({
+        id: source === 1 ? linkSplit[1] : null,
+        link: link,
+        source: source === 1 ? "imgur" : null,
+      });
+    } else if (fileType === 2) {
+      setFile({
+        id: source === 1 ? linkSplit[5] : source === 2 ? linkSplit[1] : null,
+        link: link,
+        source: source === 1 ? "youtube" : source === 2 ? "streamable" : null,
+      });
+    }
+  }, [link, review, source, fileType]);
 
   const handleSubmit = (evt) => {
     if (evt) evt.preventDefault();
-    let tmpVideo = {
-      id: video.id,
-      link: video.link,
-      source: video.source,
+    let tmpFile = {
+      id: file.id,
+      link: file.link,
+      source: file.source,
     };
     return client
-      .service("submissions")
+      .service("review_submissions")
       .create({
-        contestId: contest.id,
+        reviewId: review.id,
         userId: user.id,
         username: user.username,
         display_name: user.display_name,
-        video: tmpVideo,
+        link: tmpFile,
         comment: comment,
-        title: title,
       })
       .then(() => {
         window.location.reload();
@@ -98,18 +121,17 @@ export default function Creation(props) {
   const handleModify = (evt) => {
     if (evt) evt.preventDefault();
     if (!submission) return;
-    let tmpVideo = {
-      id: video.id,
-      link: video.link,
-      source: video.source,
+    let tmpFile = {
+      id: file.id,
+      link: file.link,
+      source: file.source,
     };
     return client
       .service("submissions")
       .patch(submission.id, {
-        contestId: contest.id,
-        video: tmpVideo,
+        reviewId: review.id,
+        link: tmpFile,
         comment: comment,
-        title: title,
       })
       .then(() => {
         window.location.reload();
@@ -121,18 +143,14 @@ export default function Creation(props) {
       });
   };
 
-  const handleSource = (event) => {
-    setSource(event.target.value);
-  };
-
   if (user === undefined) return <Loading />;
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
       <img alt="" src={logo} sx={{ height: "auto", width: "100%" }} />
       {submission && <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase", mt: 1 }}>{`Submission ID: ${submission.id}`}</Typography>}
-      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase" }}>{`Contest ID: ${contest.id}`}</Typography>
-      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase" }}>{`${contest.title}`}</Typography>
+      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase" }}>{`Review ID: ${review.id}`}</Typography>
+      <Typography variant="h7" fontWeight={600} sx={{ textTransform: "uppercase" }}>{`${review.title}`}</Typography>
       <Typography variant="h5" fontWeight={600} sx={{ textTransform: "uppercase", mt: 1 }} color="primary">
         {type === "Modify" ? "Modify Submission" : "Submission"}
       </Typography>
@@ -142,34 +160,32 @@ export default function Creation(props) {
         </Alert>
       )}
       <form noValidate>
-        {(contest.type === "song" || contest.type === "alert" || contest.type === "clips") && (
-          <TextField
-            sx={{ mt: 1 }}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Title"
-            name="title"
-            autoComplete="off"
-            autoCapitalize="off"
-            autoCorrect="off"
-            autoFocus
-            onChange={handleTitleChange}
-          />
-        )}
         {linkError && (
           <Alert sx={{ mt: 1 }} severity="error">
             {linkErrorMsg}
           </Alert>
         )}
-        {contest.type === "alert" && (
+        <FormControl fullWidth required sx={{ mt: 1 }}>
+          <InputLabel id="file-label">File Type</InputLabel>
+          <Select labelId="file-label" value={fileType} label="File Type" onChange={(evt) => setFileType(evt.target.value)}>
+            <MenuItem value={1}>Image</MenuItem>
+            <MenuItem value={2}>Video</MenuItem>
+          </Select>
+        </FormControl>
+        {fileType === 1 && (
           <FormControl fullWidth required sx={{ mt: 1 }}>
             <InputLabel id="source-label">Source</InputLabel>
-            <Select labelId="source-label" value={source} label="Source" onChange={handleSource}>
+            <Select labelId="source-label" value={source} label="Source" onChange={(evt) => setSource(evt.target.value)}>
+              <MenuItem value={1}>Imgur</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+        {fileType === 2 && (
+          <FormControl fullWidth required sx={{ mt: 1 }}>
+            <InputLabel id="source-label">Source</InputLabel>
+            <Select labelId="source-label" value={source} label="Source" onChange={(evt) => setSource(evt.target.value)}>
               <MenuItem value={1}>Youtube</MenuItem>
-              <MenuItem value={2}>Twitch</MenuItem>
-              <MenuItem value={3}>Streamable</MenuItem>
+              <MenuItem value={2}>Streamable</MenuItem>
             </Select>
           </FormControl>
         )}
@@ -179,27 +195,25 @@ export default function Creation(props) {
             {commentErrorMsg}
           </Alert>
         )}
-        {contest.type === "alert" && (
-          <TextField
-            multiline
-            rows={4}
-            variant="filled"
-            margin="normal"
-            fullWidth
-            label="Comment"
-            name="Comment"
-            autoComplete="off"
-            autoCapitalize="off"
-            autoCorrect="off"
-            onChange={handleCommentChange}
-          />
-        )}
+        <TextField
+          multiline
+          rows={4}
+          variant="filled"
+          margin="normal"
+          fullWidth
+          label="Comment"
+          name="Comment"
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          onChange={handleCommentChange}
+        />
         {type === "Modify" ? (
-          <Button sx={{ mt: 1 }} type="submit" fullWidth variant="contained" color="primary" onClick={handleModify} disabled={contest.type !== "review" ? title.length === 0 || !video : !video}>
+          <Button sx={{ mt: 1 }} type="submit" fullWidth variant="contained" color="primary" onClick={handleModify} disabled={!file}>
             Modify
           </Button>
         ) : (
-          <Button sx={{ mt: 1 }} type="submit" fullWidth variant="contained" color="primary" onClick={handleSubmit} disabled={contest.type !== "review" ? title.length === 0 || !video : !video}>
+          <Button sx={{ mt: 1 }} type="submit" fullWidth variant="contained" color="primary" onClick={handleSubmit} disabled={!file}>
             Submit
           </Button>
         )}
