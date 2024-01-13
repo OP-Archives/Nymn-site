@@ -123,6 +123,7 @@ export default function Creation(props) {
     if (!submission) return;
     let tmpFile = {
       id: file.id,
+      fileType: fileType === 1 ? "image" : "video",
       link: file.link,
       source: file.source,
     };

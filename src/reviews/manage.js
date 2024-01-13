@@ -10,6 +10,7 @@ import logo from "../assets/logo.gif";
 import YoutubePlayer from "./YoutubePlayer";
 import CustomLink from "../utils/CustomLink";
 import debounce from "lodash.debounce";
+import Image from "./Image";
 
 export default function Manage(props) {
   const { user, channel } = props;
@@ -99,7 +100,7 @@ export default function Manage(props) {
 
   const approve = async (_) => {
     await client
-      .service("submissions")
+      .service("review_submissions")
       .patch(submission.id, {
         status: "approved",
       })
@@ -117,7 +118,7 @@ export default function Manage(props) {
     const confirmDialog = window.confirm("Are you sure?");
     if (!confirmDialog) return;
     await client
-      .service("submissions")
+      .service("review_submissions")
       .patch(submission.id, {
         status: "",
       })
@@ -133,7 +134,7 @@ export default function Manage(props) {
 
   const deny = async (_) => {
     await client
-      .service("submissions")
+      .service("review_submissions")
       .patch(submission.id, {
         status: "denied",
       })
@@ -160,7 +161,7 @@ export default function Manage(props) {
       });
 
     await client
-      .service("submissions")
+      .service("review_submissions")
       .patch(submission.id, {
         status: "denied",
       })
@@ -178,7 +179,7 @@ export default function Manage(props) {
     const confirmDialog = window.confirm("Are you sure?");
     if (!confirmDialog) return;
     await client
-      .service("submissions")
+      .service("review_submissions")
       .remove(submission.id)
       .then(() => {
         const index = submissions.findIndex((argSubmission) => argSubmission.id === submission.id);
@@ -295,23 +296,21 @@ export default function Manage(props) {
                     <Box sx={{ display: "flex", width: "100%", justifyContent: "space-evenly", alignItems: "center", flexDirection: isMobile ? "column" : "row" }}>
                       <Button variant="contained" onClick={prevSubmission}>{`<`}</Button>
 
-                      {(submission.video?.source === "youtube" || !submission.video.source) && (
+                      {(submission.link?.source === "imgur" || !submission.link.source) && (
+                        <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
+                          <Image submission={submission} />
+                        </Box>
+                      )}
+
+                      {(submission.link?.source === "youtube" || !submission.link.source) && (
                         <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
                           <YoutubePlayer submission={submission} />
                         </Box>
                       )}
 
-                      {(submission.video?.source === "streamable" || !submission.video.source) && (
+                      {(submission.link?.source === "streamable" || !submission.link.source) && (
                         <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
-                          <iframe
-                            title={submission.video.id}
-                            src={`https://streamable.com/e/${submission.video.id}`}
-                            height="500px"
-                            width="100%"
-                            allowFullScreen={true}
-                            preload="auto"
-                            frameBorder="0"
-                          />
+                          <iframe title={submission.link.id} src={`https://streamable.com/e/${submission.link.id}`} height="500px" width="100%" allowFullScreen={true} preload="auto" frameBorder="0" />
                         </Box>
                       )}
 
@@ -321,42 +320,51 @@ export default function Manage(props) {
                 )}
               </Box>
 
-              {submissions && submission && ui !== "winners" && (
+              {submissions && submission && (
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", mt: 1, width: isMobile ? "100%" : "60%" }}>
-                  <Typography variant="h5">{`${submission.title}`}</Typography>
                   <Typography variant="h5" color="primary">{`${submission.display_name}`}</Typography>
-                  <CustomLink href={submission.video.link} target="_blank" rel="noreferrer noopener" color="textSecondary">
-                    <Typography variant="caption" noWrap>{`${submission.video.link}`}</Typography>
+                  <CustomLink href={submission.link.link} target="_blank" rel="noreferrer noopener" color="textSecondary">
+                    <Typography variant="caption" noWrap>{`${submission.link.link}`}</Typography>
                   </CustomLink>
-                  {submission.video.start != null && submission.video.end != null && <Typography variant="h5">{`${toHHMMSS(submission.video.start)} - ${toHHMMSS(submission.video.end)}`}</Typography>}
                   <Typography variant="caption" sx={{ wordBreak: "break-word" }}>
                     {`${submission.comment}`}
                   </Typography>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    {submission.status === "denied" && (
-                      <Button sx={{ m: 0.5 }} variant="outlined" onClick={unapprove}>
-                        {`Un-Deny`}
-                      </Button>
-                    )}
-                    {submission.status === "" && (
-                      <>
-                        <Button sx={{ m: 0.5 }} variant="outlined" onClick={approve}>
-                          {`Approve`}
+                  {ui !== "approved" && (
+                    <>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        {submission.status === "denied" && (
+                          <Button sx={{ m: 0.5 }} variant="outlined" onClick={unapprove}>
+                            {`Un-Deny`}
+                          </Button>
+                        )}
+                        {submission.status === "" && (
+                          <>
+                            <Button sx={{ m: 0.5 }} variant="outlined" onClick={approve}>
+                              {`Approve`}
+                            </Button>
+                            <Button sx={{ m: 0.5 }} variant="outlined" onClick={deny} color="error">
+                              {`Deny`}
+                            </Button>
+                          </>
+                        )}
+                        {submission.status === "approved" && (
+                          <>
+                            <Button sx={{ m: 0.5 }} variant="outlined" onClick={unapprove}>
+                              {`Un-Approve`}
+                            </Button>
+                          </>
+                        )}
+                      </Box>
+                      <Box sx={{ display: "flex" }}>
+                        <Button sx={{ m: 0.5 }} variant="outlined" onClick={remove} color="error">
+                          {`Remove`}
                         </Button>
-                        <Button sx={{ m: 0.5 }} variant="outlined" onClick={deny} color="error">
-                          {`Deny`}
+                        <Button sx={{ m: 0.5 }} variant="outlined" onClick={ban} color="error">
+                          {`Ban User`}
                         </Button>
-                      </>
-                    )}
-                  </Box>
-                  <Box sx={{ display: "flex" }}>
-                    <Button sx={{ m: 0.5 }} variant="outlined" onClick={remove} color="error">
-                      {`Remove`}
-                    </Button>
-                    <Button sx={{ m: 0.5 }} variant="outlined" onClick={ban} color="error">
-                      {`Ban User`}
-                    </Button>
-                  </Box>
+                      </Box>
+                    </>
+                  )}
                 </Box>
               )}
             </Box>
@@ -367,15 +375,3 @@ export default function Manage(props) {
     </SimpleBar>
   );
 }
-
-const toHHMMSS = (secs) => {
-  var sec_num = parseInt(secs, 10);
-  var hours = Math.floor(sec_num / 3600);
-  var minutes = Math.floor(sec_num / 60) % 60;
-  var seconds = sec_num % 60;
-
-  return [hours, minutes, seconds]
-    .map((v) => (v < 10 ? "0" + v : v))
-    .filter((v, i) => v !== "00" || i > 0)
-    .join(":");
-};

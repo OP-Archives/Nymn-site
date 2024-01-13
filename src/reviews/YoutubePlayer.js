@@ -9,35 +9,17 @@ export default function YoutubePlayer(props) {
   const onReady = (evt) => {
     player.current = evt.target;
 
-    player.current.cueVideoById(
-      submission.video.end != null
-        ? {
-            videoId: submission.video.id,
-            startSeconds: submission.video.start != null ? submission.video.start : 0,
-            endSeconds: submission.video.end,
-          }
-        : {
-            videoId: submission.video.id,
-            startSeconds: submission.video.start != null ? submission.video.start : 0,
-          }
-    );
+    player.current.cueVideoById({
+      videoId: submission.link.id,
+    });
   };
 
   useEffect(() => {
     if (!submission || !player.current) return;
 
-    player.current.cueVideoById(
-      submission.video.end
-        ? {
-            videoId: submission.video.id,
-            startSeconds: submission.video.start ? submission.video.start : 0,
-            endSeconds: submission.video.end,
-          }
-        : {
-            videoId: submission.video.id,
-            startSeconds: submission.video.start ? submission.video.start : 0,
-          }
-    );
+    player.current.cueVideoById({
+      videoId: submission.link.id,
+    });
   }, [submission]);
 
   return (
