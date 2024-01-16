@@ -177,7 +177,7 @@ export default function Creation(props) {
           <FormControl fullWidth required sx={{ mt: 1 }}>
             <InputLabel id="source-label">Source</InputLabel>
             <Select labelId="source-label" value={source} label="Source" onChange={(evt) => setSource(evt.target.value)}>
-              <MenuItem value={1}>Imgur</MenuItem>
+              <MenuItem value={1}>Imgur (i.imgur.com)</MenuItem>
             </Select>
           </FormControl>
         )}
@@ -190,7 +190,7 @@ export default function Creation(props) {
             </Select>
           </FormControl>
         )}
-        <TextField variant="outlined" margin="normal" required fullWidth label={"Link"} name={"Link"} autoComplete="off" autoCapitalize="off" autoCorrect="off" onChange={handleLinkChange} />
+        <TextField variant="outlined" margin="normal" required fullWidth label={fileType === 1 ? "Direct Image Link" : "Link"} name={"Link"} autoComplete="off" autoCapitalize="off" autoCorrect="off" onChange={handleLinkChange} />
         {commentError && (
           <Alert sx={{ mt: 1 }} severity="error">
             {commentErrorMsg}
