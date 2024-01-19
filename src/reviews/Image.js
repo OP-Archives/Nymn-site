@@ -23,7 +23,7 @@ export default function Image(props) {
 
   useEffect(() => {
     //fallback for old images without imgur data
-    if (imgurData) return;
+    if (submission.imgurData) return;
 
     const getImageInfo = async () => {
       const data = await fetch(`${IMGUR_BASE_API}/image/${submission.id}?client_id=${IMGUR_CLIENT_ID}`, {
@@ -46,8 +46,6 @@ export default function Image(props) {
     getImageInfo();
     return;
   }, [imgurData, submission]);
-
-  console.log(imgurData);
 
   return (
     <Box
@@ -74,7 +72,7 @@ export default function Image(props) {
                 width: "100%",
               }}
               alt=""
-              src={imgurData.images[imageIndex].link}
+              src={submission.imgurData.images[imageIndex].link}
             />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", pl: 1, pr: 1, pt: 1 }}>
@@ -103,7 +101,7 @@ export default function Image(props) {
               width: "100%",
             }}
             alt=""
-            src={imgurData?.link}
+            src={submission.imgurData?.link ?? imgurData?.link}
           />
         </Box>
       )}
