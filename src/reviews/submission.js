@@ -5,6 +5,9 @@ import { Alert } from "@mui/material";
 import client from "../client";
 import Loading from "../utils/Loading";
 
+const IMGUR_CLIENT_ID = process.env.REACT_APP_IMGUR_CLIENT_ID;
+const IMGUR_BASE_API = "https://api.imgur.com/3";
+
 export default function Creation(props) {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(undefined);
@@ -43,7 +46,7 @@ export default function Creation(props) {
     if (fileType === 1) {
       switch (source) {
         case 1:
-          regexToUse = /https:\/\/(?:i\.)?imgur\.com\/(.*)(?:\..*)$/;
+          regexToUse = /https:\/\/(?:i\.)?imgur\.com\/(?:a\/|gallery\/)?([^.]+)(?:\..*)?$/;
           break;
         default:
           regexToUse = null;
@@ -66,7 +69,7 @@ export default function Creation(props) {
       }
     }
 
-    if (!regexToUse.test(link)) {
+    if (!regexToUse.test(link) || link.includes("/gallery/")) {
       setLinkError(true);
       setLinkErrorMsg("Link is not valid!");
       setFile(null);
@@ -81,6 +84,8 @@ export default function Creation(props) {
         id: source === 1 ? linkSplit[1] : null,
         link: link,
         source: source === 1 ? "imgur" : null,
+        isAlbum: link.includes("/a/"),
+        isGallery: link.includes("/gallery/"),
       });
     } else if (fileType === 2) {
       setFile({
@@ -91,13 +96,57 @@ export default function Creation(props) {
     }
   }, [link, review, source, fileType]);
 
-  const handleSubmit = (evt) => {
+  const getImageInfo = async (id) => {
+    const data = await fetch(`${IMGUR_BASE_API}/image/${id}?client_id=${IMGUR_CLIENT_ID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.data.error) return null;
+        return response.data;
+      })
+      .catch((e) => {
+        console.error(e);
+        return null;
+      });
+    return data;
+  };
+
+  const getAlbum = async (id) => {
+    const data = await fetch(`${IMGUR_BASE_API}/album/${id}?client_id=${IMGUR_CLIENT_ID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.data.error) return null;
+        return response.data;
+      })
+      .catch((e) => {
+        console.error(e);
+        return null;
+      });
+    return data;
+  };
+
+  const handleSubmit = async (evt) => {
     if (evt) evt.preventDefault();
+
+    const imgurData = file.isAlbum ? await getAlbum(file.id) : await getImageInfo(file.id);
+
     let tmpFile = {
       id: file.id,
       link: file.link,
       source: file.source,
+      isAlbum: file.isAlbum,
+      imgurData: imgurData,
     };
+
     return client
       .service("review_submissions")
       .create({
@@ -177,7 +226,7 @@ export default function Creation(props) {
           <FormControl fullWidth required sx={{ mt: 1 }}>
             <InputLabel id="source-label">Source</InputLabel>
             <Select labelId="source-label" value={source} label="Source" onChange={(evt) => setSource(evt.target.value)}>
-              <MenuItem value={1}>Imgur (i.imgur.com)</MenuItem>
+              <MenuItem value={1}>Imgur</MenuItem>
             </Select>
           </FormControl>
         )}
@@ -190,7 +239,7 @@ export default function Creation(props) {
             </Select>
           </FormControl>
         )}
-        <TextField variant="outlined" margin="normal" required fullWidth label={fileType === 1 ? "Direct Image Link" : "Link"} name={"Link"} autoComplete="off" autoCapitalize="off" autoCorrect="off" onChange={handleLinkChange} />
+        <TextField variant="outlined" margin="normal" required fullWidth label={"Link"} name={"Link"} autoComplete="off" autoCapitalize="off" autoCorrect="off" onChange={handleLinkChange} />
         {commentError && (
           <Alert sx={{ mt: 1 }} severity="error">
             {commentErrorMsg}
