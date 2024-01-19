@@ -45,7 +45,7 @@ export default function Image(props) {
     };
     getImageInfo();
     return;
-  }, [imgurData, submission]);
+  }, [submission]);
 
   return (
     <Box
