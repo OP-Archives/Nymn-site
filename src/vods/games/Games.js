@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { Box, Typography, MenuItem, Tooltip, useMediaQuery, FormControl, InputLabel, Select, IconButton, Link, Collapse, Divider } from "@mui/material";
-import Loading from "../utils/Loading";
+import Loading from "../../utils/Loading";
 import { useLocation, useParams } from "react-router-dom";
 import YoutubePlayer from "./Youtube";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import NotFound from "../utils/NotFound";
-import Chat from "../vods/Chat";
-import ExpandMore from "../utils/CustomExpandMore";
-import CustomToolTip from "../utils/CustomToolTip";
+import NotFound from "../../utils/NotFound";
+import Chat from "../Chat";
+import ExpandMore from "../../utils/CustomExpandMore";
+import CustomToolTip from "../../utils/CustomToolTip";
 
 const delay = 0;
 

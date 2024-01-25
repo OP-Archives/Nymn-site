@@ -9,7 +9,7 @@ import client from "./client";
 const Vods = lazy(() => import("./vods/Vods"));
 const Navbar = lazy(() => import("./navbar/navbar"));
 const YoutubeVod = lazy(() => import("./vods/YoutubeVod"));
-const Games = lazy(() => import("./games/Games"));
+const Games = lazy(() => import("./vods/games/Games"));
 const CustomVod = lazy(() => import("./vods/CustomVod"));
 const NotFound = lazy(() => import("./utils/NotFound"));
 const Submission = lazy(() => import("./nnys/submission"));
