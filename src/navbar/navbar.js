@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, useMediaQuery, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, useMediaQuery, Box, Divider } from "@mui/material";
 import Logo from "../assets/logo.gif";
 import CustomLink from "../utils/CustomLink";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -11,6 +11,8 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import StoreIcon from "@mui/icons-material/Store";
 import ReportIcon from "@mui/icons-material/Report";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
+import ReviewsIcon from "@mui/icons-material/Reviews";
 
 const socials = [
   { path: `https://reddit.com/r/RedditAndChill`, icon: <RedditIcon color="primary" /> },
@@ -55,35 +57,33 @@ export default function Navbar(props) {
               </a>
             </Box>
 
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" sx={{ mr: 1 }}>
               <CustomLink color="inherit" href="/">
                 <Typography color="primary" variant="h6">
                   {channel}
                 </Typography>
               </CustomLink>
             </Typography>
+
+            <Divider orientation="vertical" flexItem variant="middle" sx={{ ml: 1, mr: 1 }} />
+
+            {socials.map(({ path, icon }) => (
+              <Box key={path} sx={{ mr: 2 }}>
+                <CustomLink href={path} rel="noopener noreferrer" target="_blank">
+                  {icon}
+                </CustomLink>
+              </Box>
+            ))}
           </Box>
 
           {!isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flex: 1 }}>
-              {socials.map(({ path, icon }) => (
-                <Box key={path} sx={{ mr: 2 }}>
-                  <CustomLink href={path} rel="noopener noreferrer" target="_blank">
-                    {icon}
-                  </CustomLink>
-                </Box>
-              ))}
-            </Box>
-          )}
-
-          {!isMobile && (
-            <Box sx={{ display: "flex", justifyContent: "end", flex: 1 }}>
               <Box sx={{ mr: 2 }}>
-                <CustomLink href={`${process.env.REACT_APP_GITHUB}/issues`} rel="noopener noreferrer" target="_blank">
+                <CustomLink href="/review">
                   <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <ReportIcon color="primary" sx={{ mr: 0.5 }} />
+                    <VideogameAssetIcon color="primary" sx={{ mr: 0.5 }} />
                     <Typography color="primary" variant="h6">
-                      Report an Issue
+                      Games
                     </Typography>
                   </Box>
                 </CustomLink>
@@ -91,7 +91,7 @@ export default function Navbar(props) {
               <Box sx={{ mr: 2 }}>
                 <CustomLink href="/review">
                   <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <EmojiEventsIcon color="primary" sx={{ mr: 0.5 }} />
+                    <ReviewsIcon color="primary" sx={{ mr: 0.5 }} />
                     <Typography color="primary" variant="h6">
                       Friday Reviews
                     </Typography>
@@ -114,6 +114,21 @@ export default function Navbar(props) {
                     <OndemandVideoIcon color="primary" sx={{ mr: 0.5 }} />
                     <Typography color="primary" variant="h6">
                       Vods
+                    </Typography>
+                  </Box>
+                </CustomLink>
+              </Box>
+            </Box>
+          )}
+
+          {!isMobile && (
+            <Box sx={{ display: "flex", justifyContent: "end", flex: 1 }}>
+              <Box sx={{ mr: 2 }}>
+                <CustomLink href={`${process.env.REACT_APP_GITHUB}/issues`} rel="noopener noreferrer" target="_blank">
+                  <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <ReportIcon color="primary" sx={{ mr: 0.5 }} />
+                    <Typography color="primary" variant="h6">
+                      Report an Issue
                     </Typography>
                   </Box>
                 </CustomLink>
