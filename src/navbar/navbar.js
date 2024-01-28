@@ -79,7 +79,7 @@ export default function Navbar(props) {
           {!isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flex: 1 }}>
               <Box sx={{ mr: 2 }}>
-                <CustomLink href="/review">
+                <CustomLink>
                   <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <VideogameAssetIcon color="primary" sx={{ mr: 0.5 }} />
                     <Typography color="primary" variant="h6">
