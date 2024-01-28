@@ -16,7 +16,6 @@ export default function Search(props) {
 
   useEffect(() => {
     if (search === undefined) return;
-    setGames(undefined);
     const fetchSearch = async () => {
       await client
         .service("games")
