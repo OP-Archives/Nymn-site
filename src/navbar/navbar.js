@@ -65,21 +65,25 @@ export default function Navbar(props) {
               </CustomLink>
             </Typography>
 
-            <Divider orientation="vertical" flexItem variant="middle" sx={{ ml: 1, mr: 1 }} />
+            {!isMobile && (
+              <>
+                <Divider orientation="vertical" flexItem variant="middle" sx={{ ml: 1, mr: 1 }} />
 
-            {socials.map(({ path, icon }) => (
-              <Box key={path} sx={{ mr: 2 }}>
-                <CustomLink href={path} rel="noopener noreferrer" target="_blank">
-                  {icon}
-                </CustomLink>
-              </Box>
-            ))}
+                {socials.map(({ path, icon }) => (
+                  <Box key={path} sx={{ mr: 2 }}>
+                    <CustomLink href={path} rel="noopener noreferrer" target="_blank">
+                      {icon}
+                    </CustomLink>
+                  </Box>
+                ))}
+              </>
+            )}
           </Box>
 
           {!isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flex: 1 }}>
               <Box sx={{ mr: 2 }}>
-                <CustomLink>
+                <CustomLink href="/games">
                   <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <VideogameAssetIcon color="primary" sx={{ mr: 0.5 }} />
                     <Typography color="primary" variant="h6">
@@ -128,7 +132,7 @@ export default function Navbar(props) {
                   <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <ReportIcon color="primary" sx={{ mr: 0.5 }} />
                     <Typography color="primary" variant="h6">
-                      Report an Issue
+                      Issues
                     </Typography>
                   </Box>
                 </CustomLink>

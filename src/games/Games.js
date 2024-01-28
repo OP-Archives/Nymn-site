@@ -208,8 +208,7 @@ export default function Games(props) {
             </Box>
           </Box>
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            {filteredGames &&
-              filteredGames.sort((a, b) => b.votes_total - a.votes_total).map((game, _) => <Game key={game.id} gridSize={2} game={game} isMobile={isMobile} user={user} userVotes={userVotes} />)}
+            {filteredGames && filteredGames.map((game, _) => <Game key={game.id} gridSize={2} game={game} isMobile={isMobile} user={user} userVotes={userVotes} />)}
           </Grid>
         </Box>
         <Footer />

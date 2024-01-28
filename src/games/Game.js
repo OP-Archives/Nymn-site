@@ -37,14 +37,14 @@ export default function Game(props) {
           </Link>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", flex: 1, flexDirection: "column" }}>
-          <Box sx={{ display: "flex", alignItems: "center", flex: 1, flexDirection: "column" }}>
-            <span>
-              <CustomLink href={steamLink} target="_blank" rel="noopener noreferrer" sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block", color: "white" }}>
-                <Typography variant="h6" sx={{ fontWeight: "550" }}>
+          <Box sx={{ display: "flex", alignItems: "center", flex: 1, flexDirection: "column", width: "100%", justifyContent: "center" }}>
+            <Box sx={{ justifyContent: "center", display: "flex", alignItems: "center", mb: 0.5, width: "100%" }}>
+              <Typography variant="h6" sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" }}>
+                <CustomLink href={steamLink} target="_blank" rel="noopener noreferrer" sx={{ color: "white" }}>
                   {game.name}
-                </Typography>
-              </CustomLink>
-            </span>
+                </CustomLink>
+              </Typography>
+            </Box>
             <Box sx={{ justifyContent: "center", display: "flex", alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
               {game.tags && game.tags.map((tag, _) => <Chip key={tag.id} size="small" color="info" variant="outlined" label={tag.description} sx={{ mr: 0.3 }} />)}
             </Box>
