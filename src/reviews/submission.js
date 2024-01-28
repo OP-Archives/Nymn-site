@@ -94,6 +94,7 @@ export default function Creation(props) {
         source: source === 1 ? "youtube" : source === 2 ? "streamable" : null,
       });
     }
+    return;
   }, [link, review, source, fileType]);
 
   const getImageInfo = async (id) => {

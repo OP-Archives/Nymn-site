@@ -109,6 +109,7 @@ export default function Edit(props) {
           <InputLabel id="select-label">Type</InputLabel>
           <Select labelId="select-label" label="Type" value={type} onChange={handleTypeChange} fullWidth>
             <MenuItem value="alert">Alert</MenuItem>
+            <MenuItem value="emote">Emote</MenuItem>
           </Select>
         </FormControl>
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>

@@ -68,6 +68,7 @@ export default function Creation(props) {
           <InputLabel id="select-label">Type</InputLabel>
           <Select labelId="select-label" label="Type" value={type} onChange={handleTypeChange} fullWidth>
             <MenuItem value="alert">Alert</MenuItem>
+            <MenuItem value="emote">Emote</MenuItem>
           </Select>
         </FormControl>
         <Box sx={{ mt: 1, display: "flex", alignItems: "center" }}>

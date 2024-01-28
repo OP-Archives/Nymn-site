@@ -11,6 +11,7 @@ import YoutubePlayer from "./YoutubePlayer";
 import CustomLink from "../utils/CustomLink";
 import debounce from "lodash.debounce";
 import Winners from "./winnerUI";
+import Imgur from "./Imgur";
 
 export default function Manage(props) {
   const { user, channel } = props;
@@ -350,6 +351,18 @@ export default function Manage(props) {
                             preload="auto"
                             frameBorder="0"
                           />
+                        </Box>
+                      )}
+
+                      {contest.type === "emote" && (submission.video?.source === "7tv" || !submission.video.source) && (
+                        <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
+                          <img alt="" src={`https://cdn.7tv.app/emote/${submission.video.id}/4x.webp`} />
+                        </Box>
+                      )}
+
+                      {contest.type === "emote" && (submission.video?.source === "imgur" || !submission.video.source) && (
+                        <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
+                          <Imgur submission={submission} />
                         </Box>
                       )}
 
