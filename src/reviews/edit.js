@@ -13,7 +13,6 @@ export default function Edit(props) {
   const [active, setActive] = useState(review.active);
   const [submission, setSubmission] = useState(review.submission);
   const [description, setDescription] = useState(review.description);
-  console.log(description);
 
   const handleTitleChange = (evt) => {
     setTitle(evt.target.value);

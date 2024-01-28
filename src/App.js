@@ -9,7 +9,7 @@ import client from "./client";
 const Vods = lazy(() => import("./vods/Vods"));
 const Navbar = lazy(() => import("./navbar/navbar"));
 const YoutubeVod = lazy(() => import("./vods/YoutubeVod"));
-const Games = lazy(() => import("./vods/games/Games"));
+const GamesVod = lazy(() => import("./vods/games/Games"));
 const CustomVod = lazy(() => import("./vods/CustomVod"));
 const NotFound = lazy(() => import("./utils/NotFound"));
 const Submission = lazy(() => import("./nnys/submission"));
@@ -19,6 +19,7 @@ const Manage = lazy(() => import("./contests/manage"));
 const Winners = lazy(() => import("./contests/winners"));
 const Reviews = lazy(() => import("./reviews/Reviews"));
 const ManageReviews = lazy(() => import("./reviews/manage"));
+const Games = lazy(() => import("./games/Games"));
 
 const channel = process.env.REACT_APP_CHANNEL,
   twitchId = process.env.REACT_APP_TWITCH_ID,
@@ -70,7 +71,7 @@ export default function App() {
     });
 
     return;
-  }, [user]);
+  }, []);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -103,7 +104,7 @@ export default function App() {
               <Route exact path="/vods/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} type="vod" VODS_API_BASE={VODS_API_BASE} />} />
               <Route exact path="/live/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} type="live" VODS_API_BASE={VODS_API_BASE} />} />
               <Route exact path="/youtube/:vodId" element={<YoutubeVod channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />} />
-              <Route exact path="/games/:vodId" element={<Games channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />} />
+              <Route exact path="/games/:vodId" element={<GamesVod channel={channel} twitchId={twitchId} VODS_API_BASE={VODS_API_BASE} />} />
               <Route exact path="/manual/:vodId" element={<CustomVod channel={channel} twitchId={twitchId} type="manual" VODS_API_BASE={VODS_API_BASE} />} />
               <Route exact path="/submit" element={<Submission />} />
               <Route exact path="/mousepad" element={<Redirect to="https://epicdesk.shop/products/nymn" />} />
@@ -156,6 +157,16 @@ export default function App() {
                   <>
                     <Navbar channel={channel} />
                     <ManageReviews user={user} channel={channel} />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/games"
+                element={
+                  <>
+                    <Navbar channel={channel} />
+                    <Games user={user} channel={channel} />
                   </>
                 }
               />
