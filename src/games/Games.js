@@ -10,6 +10,7 @@ import Submission from "./Submission";
 import PublishIcon from "@mui/icons-material/Publish";
 import FilterTags from "./FilterTags";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const OAUTH_LOGIN = `${process.env.REACT_APP_CONTESTS_API}/oauth/twitch?redirect=games`;
 
@@ -157,26 +158,30 @@ export default function Games(props) {
                   Game Suggestions
                 </Typography>
               </Box>
-              {!user && (
-                <Box sx={{ mt: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Button
-                    variant="contained"
-                    onClick={login}
-                    startIcon={
-                      <SvgIcon>
-                        <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
-                      </SvgIcon>
-                    }
-                  >
-                    Connect
-                  </Button>
-                </Box>
-              )}
               <Box sx={{ mt: 1, display: "flex", alignItems: "center", width: "100%" }}>
-                <FilterTags setTags={setTags} />
+                <FilterTags setTags={setTags} user={user} />
                 <Search setGames={setGames} />
 
                 <Box sx={{ flex: 1, display: "flex", justifyContent: "end" }}>
+                  {!user && (
+                    <Button
+                      variant="contained"
+                      onClick={login}
+                      startIcon={
+                        <SvgIcon>
+                          <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
+                        </SvgIcon>
+                      }
+                      sx={{ mr: 1 }}
+                    >
+                      Connect
+                    </Button>
+                  )}
+                  {user && (
+                    <Button variant="contained" onClick={() => client.logout()} color="secondary" startIcon={<LogoutIcon />} sx={{ mr: 1 }}>
+                      Log Out
+                    </Button>
+                  )}
                   <Button variant="contained" disabled={!user} onClick={() => setSubmissionModal(true)} startIcon={<PublishIcon />} color="primary">
                     Submit
                   </Button>

@@ -8,10 +8,12 @@ const API_BASE = process.env.REACT_APP_CONTESTS_API;
 const LISTBOX_PADDING = 8; // px
 
 export default function FilterTags(props) {
-  const { setTags } = props;
-  const [steamTags, setSteamTags] = useState(undefined);
+  const { setTags, user } = props;
+  const [steamTags, setSteamTags] = useState([]);
+  const loading = steamTags.length === 0;
 
   useEffect(() => {
+    if (!user) return;
     const fetchTags = async () => {
       const { accessToken } = await client.get("authentication");
       await fetch(`${API_BASE}/v1/steam/tags`, {
@@ -32,9 +34,7 @@ export default function FilterTags(props) {
     };
     fetchTags();
     return;
-  }, []);
-
-  if (!steamTags) return null;
+  }, [user]);
 
   return (
     <Box sx={{ flex: 1, display: "flex", justifyContent: "start" }}>
@@ -42,6 +42,8 @@ export default function FilterTags(props) {
         disableListWrap
         multiple
         clearOnBlur
+        disabled={!user}
+        loading={loading}
         PopperComponent={StyledPopper}
         ListboxComponent={ListboxComponent}
         options={steamTags}

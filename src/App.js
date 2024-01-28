@@ -67,7 +67,6 @@ export default function App() {
 
     client.on("logout", () => {
       setUser(null);
-      window.location.href = "/";
     });
 
     return;

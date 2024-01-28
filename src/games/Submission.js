@@ -21,6 +21,7 @@ export default function Submission(props) {
   const { user } = props;
 
   useEffect(() => {
+    if (!user) return;
     const fetchSteamAppsList = async () => {
       const { accessToken } = await client.get("authentication");
       await fetch(`${API_BASE}/v1/steam/apps`, {
@@ -40,10 +41,10 @@ export default function Submission(props) {
         });
     };
     fetchSteamAppsList();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    if (!app) return;
+    if (!app || !user) return;
     const fetchGameDetails = async () => {
       const { accessToken } = await client.get("authentication");
       await fetch(`${API_BASE}/v1/steam/apps/${app.appid}`, {
@@ -68,7 +69,7 @@ export default function Submission(props) {
         });
     };
     fetchGameDetails();
-  }, [app]);
+  }, [app, user]);
 
   const handleSubmit = async (evt) => {
     if (evt) evt.preventDefault();
