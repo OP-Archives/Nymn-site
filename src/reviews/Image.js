@@ -42,7 +42,7 @@ export default function Image(props) {
                 width: "100%",
               }}
               alt=""
-              src={submission.imgurData.images[imageIndex].link}
+              src={submission.imgurData.images > 0 ? submission.imgurData.images[imageIndex].link : ""}
             />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", pl: 1, pr: 1, pt: 1 }}>

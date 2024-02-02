@@ -224,8 +224,11 @@ export default function Manage(props) {
   if (!review) return <Redirect to="/review" />;
   if (!user) return <Redirect to="/review" />;
   if (user.type !== "mod" && user.type !== "admin") return <Redirect to="/review" />;
+  if (!submission) return;
 
   const currentIndex = submissions && submission ? submissions.findIndex((argSubmission) => argSubmission.id === submission.id) + 1 : undefined;
+
+  console.log(submission);
 
   return (
     <SimpleBar style={{ minHeight: 0, height: "100%" }}>
