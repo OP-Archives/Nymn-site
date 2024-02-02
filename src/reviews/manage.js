@@ -228,8 +228,6 @@ export default function Manage(props) {
 
   const currentIndex = submissions && submission ? submissions.findIndex((argSubmission) => argSubmission.id === submission.id) + 1 : undefined;
 
-  console.log(submission);
-
   return (
     <SimpleBar style={{ minHeight: 0, height: "100%" }}>
       <Box sx={{ display: "flex", justifyContent: "center", width: "100%", mt: 2, mb: 2 }}>
