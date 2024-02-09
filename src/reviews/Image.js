@@ -24,7 +24,7 @@ export default function Image(props) {
         width: "100%",
       }}
     >
-      {submission.isAlbum && (
+      {submission.isAlbum && submission.imgurData && (
         <>
           <Box
             sx={{
