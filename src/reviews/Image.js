@@ -1,9 +1,15 @@
 import { Box, Typography, Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Image(props) {
   const submission = props.submission.link;
   const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => {
+    if (!submission) return;
+    setImageIndex(0);
+    return;
+  }, [submission]);
 
   const nextImage = (_) => {
     const index = imageIndex + 1;
@@ -42,7 +48,7 @@ export default function Image(props) {
                 width: "100%",
               }}
               alt=""
-              src={submission.imgurData.images.length > 0 ? submission.imgurData.images[imageIndex].link : ""}
+              src={submission.imgurData.images.length > 0 && submission.imgurData.images[imageIndex] ? submission.imgurData.images[imageIndex].link : ""}
             />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", pl: 1, pr: 1, pt: 1 }}>
