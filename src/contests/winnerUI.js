@@ -53,7 +53,7 @@ export default function Winners(props) {
     for (let submission of submissions) {
       sendSubmissions.push({
         misc: submission.userId,
-        name: submission.display_name,
+        name: Math.random().toString(36).slice(2),
       });
     }
 
