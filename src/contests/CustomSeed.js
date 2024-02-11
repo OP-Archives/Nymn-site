@@ -5,6 +5,7 @@ import { Seed, SeedItem, SeedTeam } from "react-brackets";
 import { styled } from "@mui/system";
 import YoutubePlayer from "./YoutubePlayer";
 import CustomLink from "../utils/CustomLink";
+import Imgur from "./Imgur";
 
 export default function CustomSeed(props) {
   const isMobile = useMediaQuery("(max-width: 800px)");
@@ -169,6 +170,18 @@ export default function CustomSeed(props) {
                       </Box>
                     )}
 
+                    {contest.type === "emote" && (TEAM_A.submission.video?.source === "7tv" || !TEAM_A.submission.video?.source) && (
+                      <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
+                        <img alt="" src={`https://cdn.7tv.app/emote/${TEAM_A.submission.video.id}/4x.webp`} />
+                      </Box>
+                    )}
+
+                    {contest.type === "emote" && (TEAM_A.submission.video?.source === "imgur" || !TEAM_A.submission.video?.source) && (
+                      <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
+                        <Imgur submission={TEAM_A.submission} />
+                      </Box>
+                    )}
+
                     <Box sx={{ m: 1, display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                       <Typography variant="h6">{`${TEAM_A.submission ? TEAM_A.submission.title : ""}`}</Typography>
                       <Typography variant="h6" color="primary">{`${TEAM_A.submission ? TEAM_A.submission.display_name : ""}`}</Typography>
@@ -229,6 +242,18 @@ export default function CustomSeed(props) {
                           preload="auto"
                           frameBorder="0"
                         />
+                      </Box>
+                    )}
+
+                    {contest.type === "emote" && (TEAM_B.submission.video?.source === "7tv" || !TEAM_B.submission.video?.source) && (
+                      <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
+                        <img alt="" src={`https://cdn.7tv.app/emote/${TEAM_B.submission.video.id}/4x.webp`} />
+                      </Box>
+                    )}
+
+                    {contest.type === "emote" && (TEAM_B.submission.video?.source === "imgur" || !TEAM_B.submission.video?.source) && (
+                      <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
+                        <Imgur submission={TEAM_B.submission} />
                       </Box>
                     )}
 
