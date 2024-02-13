@@ -30,7 +30,7 @@ export default function Contests(props) {
           },
         })
         .then((res) => {
-          setContests(res.data);
+          setContests(res.data.sort((a, b) => Number(b.active) - Number(a.active)));
         });
     };
     fetchContests();
