@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Typography, Button, Box, useMediaQuery, Paper, Input } from "@mui/material";
+import { Typography, Button, Box, useMediaQuery, Paper, IconButton, TextField } from "@mui/material";
 import client from "../client";
 import Redirect from "../utils/Redirect";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,10 @@ import YoutubePlayer from "./YoutubePlayer";
 import CustomLink from "../utils/CustomLink";
 import debounce from "lodash.debounce";
 import Image from "./Image";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import LastPageIcon from "@mui/icons-material/LastPage";
 
 export default function Manage(props) {
   const { user, channel } = props;
@@ -224,7 +228,6 @@ export default function Manage(props) {
   if (!review) return <Redirect to="/review" />;
   if (!user) return <Redirect to="/review" />;
   if (user.type !== "mod" && user.type !== "admin") return <Redirect to="/review" />;
-  if (!submission) return;
 
   const currentIndex = submissions && submission ? submissions.findIndex((argSubmission) => argSubmission.id === submission.id) + 1 : undefined;
 
@@ -257,14 +260,15 @@ export default function Manage(props) {
                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                       <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Typography variant="h6" sx={{ mr: 1 }}>{`Submission ID:`}</Typography>
-                        <Input
+                        <TextField
                           key={submission.id}
                           type="text"
-                          sx={{ width: `${submission.id.length * 12}px`, fontWeight: "550", fontSize: "1.25rem" }}
+                          sx={{ width: `${submission.id.length * 32}px` }}
+                          inputProps={{ sx: { textAlign: "center" } }}
                           autoCapitalize="off"
                           autoCorrect="off"
                           autoComplete="off"
-                          disableUnderline
+                          size="small"
                           defaultValue={submission.id}
                           onFocus={(e) => e.target.select()}
                           onChange={submissionIdDebounce}
@@ -277,15 +281,15 @@ export default function Manage(props) {
                         }`}</Typography>
                       </Box>
                       <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Input
+                        <TextField
                           key={currentIndex}
                           type="text"
-                          sx={{ width: `${submissions.length.toString().length * 12}px`, fontWeight: "550", fontSize: "1.25rem", mr: 1 }}
+                          sx={{ width: `${submission.id.length * 24}px`, mr: 1 }}
                           inputProps={{ sx: { textAlign: "center" } }}
                           autoCapitalize="off"
                           autoCorrect="off"
                           autoComplete="off"
-                          disableUnderline
+                          size="small"
                           defaultValue={currentIndex}
                           onFocus={(e) => e.target.select()}
                           onChange={indexDebounce}
@@ -294,28 +298,39 @@ export default function Manage(props) {
                       </Box>
                     </Box>
 
-                    <Box sx={{ display: "flex", width: "100%", justifyContent: "space-evenly", alignItems: "center", flexDirection: isMobile ? "column" : "row" }}>
-                      <Button variant="contained" onClick={prevSubmission}>{`<`}</Button>
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      <IconButton variant="outlined" onClick={() => setSubmission(submissions[0])}>
+                        <FirstPageIcon color="primary" fontSize="large" />
+                      </IconButton>
+                      <IconButton variant="outlined" onClick={prevSubmission}>
+                        <KeyboardArrowLeftIcon color="primary" fontSize="large" />
+                      </IconButton>
+                      <IconButton variant="outlined" onClick={nextSubmission}>
+                        <KeyboardArrowRightIcon color="primary" fontSize="large" />
+                      </IconButton>
+                      <IconButton variant="outlined" onClick={() => setSubmission(submissions[submissions.length - 1])}>
+                        <LastPageIcon color="primary" fontSize="large" />
+                      </IconButton>
+                    </Box>
 
+                    <Box sx={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: isMobile ? "column" : "row" }}>
                       {(submission.link?.source === "imgur" || !submission.link.source) && (
-                        <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
+                        <Box sx={{ height: "100%", width: isMobile ? "100%" : "70%" }}>
                           <Image submission={submission} />
                         </Box>
                       )}
 
                       {(submission.link?.source === "youtube" || !submission.link.source) && (
-                        <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
+                        <Box sx={{ height: "100%", width: isMobile ? "100%" : "60%" }}>
                           <YoutubePlayer submission={submission} />
                         </Box>
                       )}
 
                       {(submission.link?.source === "streamable" || !submission.link.source) && (
-                        <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
+                        <Box sx={{ height: "100%", width: "100%" }}>
                           <iframe title={submission.link.id} src={`https://streamable.com/e/${submission.link.id}`} height="500px" width="100%" allowFullScreen={true} preload="auto" frameBorder="0" />
                         </Box>
                       )}
-
-                      <Button variant="contained" onClick={nextSubmission}>{`>`}</Button>
                     </Box>
                   </>
                 )}

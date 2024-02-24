@@ -1,5 +1,7 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export default function Image(props) {
   const submission = props.submission.link;
@@ -34,7 +36,6 @@ export default function Image(props) {
         <>
           <Box
             sx={{
-              backgroundColor: "black",
               aspectRatio: "16/9",
               height: "100%",
               width: "100%",
@@ -52,18 +53,21 @@ export default function Image(props) {
             />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", pl: 1, pr: 1, pt: 1 }}>
-            <Button variant="contained" onClick={prevImage}>{`<`}</Button>
+            <IconButton variant="outlined" onClick={prevImage}>
+              <KeyboardArrowLeftIcon color="primary" fontSize="large" />
+            </IconButton>
             <Typography sx={{ p: 1 }}>
               {imageIndex + 1} of {submission.imgurData.images_count}
             </Typography>
-            <Button variant="contained" onClick={nextImage}>{`>`}</Button>
+            <IconButton variant="outlined" onClick={nextImage}>
+              <KeyboardArrowRightIcon color="primary" fontSize="large" />
+            </IconButton>
           </Box>
         </>
       )}
       {!submission.isAlbum && (
         <Box
           sx={{
-            backgroundColor: "black",
             aspectRatio: "16/9",
             height: "100%",
             width: "100%",

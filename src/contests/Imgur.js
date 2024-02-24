@@ -1,5 +1,7 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { useState } from "react";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export default function Image(props) {
   const submission = props.submission.video;
@@ -34,11 +36,15 @@ export default function Image(props) {
         <>
           <Box component="img" alt="" src={submission.imgurData.images[imageIndex].link} />
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", pl: 1, pr: 1, pt: 3 }}>
-            <Button variant="contained" onClick={prevImage}>{`<`}</Button>
+            <IconButton variant="outlined" onClick={prevImage}>
+              <KeyboardArrowLeftIcon color="primary" fontSize="large" />
+            </IconButton>
             <Typography sx={{ p: 1 }}>
               {imageIndex + 1} of {submission.imgurData.images_count}
             </Typography>
-            <Button variant="contained" onClick={nextImage}>{`>`}</Button>
+            <IconButton variant="outlined" onClick={nextImage}>
+              <KeyboardArrowRightIcon color="primary" fontSize="large" />
+            </IconButton>
           </Box>
         </>
       )}
