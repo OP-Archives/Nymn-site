@@ -263,7 +263,7 @@ export default function Manage(props) {
                         <TextField
                           key={submission.id}
                           type="text"
-                          sx={{ width: `${submission.id.length * 32}px` }}
+                          sx={{ width: `${submission.id.length * 1.5}rem` }}
                           inputProps={{ sx: { textAlign: "center" } }}
                           autoCapitalize="off"
                           autoCorrect="off"
@@ -284,7 +284,7 @@ export default function Manage(props) {
                         <TextField
                           key={currentIndex}
                           type="text"
-                          sx={{ width: `${submission.id.length * 24}px`, mr: 1 }}
+                          sx={{ width: `${submissions.length.toString().length * 1.5}rem`, mr: 1 }}
                           inputProps={{ sx: { textAlign: "center" } }}
                           autoCapitalize="off"
                           autoCorrect="off"
