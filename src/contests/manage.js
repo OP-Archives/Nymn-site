@@ -287,7 +287,7 @@ export default function Manage(props) {
                         <TextField
                           key={submission.id}
                           type="text"
-                          sx={{ width: `${submission.id.length * 32}px`}}
+                          sx={{ width: `${submission.id.length * 1.5}rem` }}
                           inputProps={{ sx: { textAlign: "center" } }}
                           autoCapitalize="off"
                           autoCorrect="off"
@@ -308,7 +308,7 @@ export default function Manage(props) {
                         <TextField
                           key={currentIndex}
                           type="text"
-                          sx={{ width: `${submission.id.length * 24}px`, mr: 1}}
+                          sx={{ width: `5rem`, mr: 1 }}
                           inputProps={{ sx: { textAlign: "center" } }}
                           autoCapitalize="off"
                           autoCorrect="off"
@@ -338,7 +338,7 @@ export default function Manage(props) {
                     </Box>
 
                     <Box sx={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: isMobile ? "column" : "row" }}>
-                      {contest.type === "alert" && (submission.video?.source === "youtube" || !submission.video.source) && (
+                      {(contest.type === "alert" || contest.type === "music") && (submission.video?.source === "youtube" || !submission.video.source) && (
                         <Box sx={{ height: "100%", width: isMobile ? "100%" : "60%" }}>
                           <YoutubePlayer submission={submission} />
                         </Box>
@@ -381,6 +381,25 @@ export default function Manage(props) {
                       {contest.type === "emote" && (submission.video?.source === "imgur" || !submission.video.source) && (
                         <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
                           <Imgur submission={submission} />
+                        </Box>
+                      )}
+
+                      {contest.type === "music" && (submission.video?.source === "soundcloud" || !submission.video.source) && (
+                        <Box sx={{ height: "100%", width: isMobile ? "100%" : "60%" }}>
+                          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                            <iframe
+                              title="SoundCloud Player"
+                              width="100%"
+                              height="160"
+                              scrolling="no"
+                              frameBorder="no"
+                              allow="autoplay"
+                              src={`https://w.soundcloud.com/player/?url=${submission.video.link.replace(
+                                /(www\.|m\.)/,
+                                ""
+                              )}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
+                            />
+                          </Box>
                         </Box>
                       )}
                     </Box>

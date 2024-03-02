@@ -136,7 +136,7 @@ export default function CustomSeed(props) {
                 <Typography variant="body2" color="textSecondary">{`Submission ID: ${TEAM_A.submission ? TEAM_A.submission.id : "TBD"}`}</Typography>
                 {TEAM_A.submission && (
                   <>
-                    {contest.type === "alert" && (TEAM_A.submission.video?.source === "youtube" || !TEAM_A.submission.video.source) && (
+                    {(contest.type === "alert" || contest.type === "music") && (TEAM_A.submission.video?.source === "youtube" || !TEAM_A.submission.video.source) && (
                       <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
                         <YoutubePlayer show={true} submission={TEAM_A.submission} />
                       </Box>
@@ -182,6 +182,25 @@ export default function CustomSeed(props) {
                       </Box>
                     )}
 
+                    {contest.type === "music" && (TEAM_A.submission.video?.source === "soundcloud" || !TEAM_A.submission.video.source) && (
+                      <Box sx={{ height: "100%", width: isMobile ? "100%" : "60%" }}>
+                        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                          <iframe
+                            title="SoundCloud Player"
+                            width="100%"
+                            height="160"
+                            scrolling="no"
+                            frameBorder="no"
+                            allow="autoplay"
+                            src={`https://w.soundcloud.com/player/?url=${TEAM_A.submission.video.link.replace(
+                              /(www\.|m\.)/,
+                              ""
+                            )}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
+                          />
+                        </Box>
+                      </Box>
+                    )}
+
                     <Box sx={{ m: 1, display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                       <Typography variant="h6">{`${TEAM_A.submission ? TEAM_A.submission.title : ""}`}</Typography>
                       <Typography variant="h6" color="primary">{`${TEAM_A.submission ? TEAM_A.submission.display_name : ""}`}</Typography>
@@ -211,7 +230,7 @@ export default function CustomSeed(props) {
                 <Typography variant="body2" color="textSecondary">{`Submission ID: ${TEAM_B.submission ? TEAM_B.submission.id : "TBD"}`}</Typography>
                 {TEAM_B.submission && (
                   <>
-                    {contest.type === "alert" && (TEAM_B.submission.video?.source === "youtube" || !TEAM_B.submission.video.source) && (
+                    {(contest.type === "music" || contest.type === "alert") && (TEAM_B.submission.video?.source === "youtube" || !TEAM_B.submission.video.source) && (
                       <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%" }}>
                         <YoutubePlayer show={true} submission={TEAM_B.submission} />
                       </Box>
@@ -254,6 +273,25 @@ export default function CustomSeed(props) {
                     {contest.type === "emote" && (TEAM_B.submission.video?.source === "imgur" || !TEAM_B.submission.video?.source) && (
                       <Box sx={{ m: 1, height: "100%", width: isMobile ? "100%" : "60%", display: "flex", justifyContent: "center" }}>
                         <Imgur submission={TEAM_B.submission} />
+                      </Box>
+                    )}
+
+                    {contest.type === "music" && (TEAM_B.submission.video?.source === "soundcloud" || !TEAM_B.submission.video.source) && (
+                      <Box sx={{ height: "100%", width: isMobile ? "100%" : "60%" }}>
+                        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                          <iframe
+                            title="SoundCloud Player"
+                            width="100%"
+                            height="160"
+                            scrolling="no"
+                            frameBorder="no"
+                            allow="autoplay"
+                            src={`https://w.soundcloud.com/player/?url=${TEAM_B.submission.video.link.replace(
+                              /(www\.|m\.)/,
+                              ""
+                            )}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
+                          />
+                        </Box>
                       </Box>
                     )}
 

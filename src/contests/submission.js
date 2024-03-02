@@ -68,6 +68,15 @@ export default function Creation(props) {
               ? /https:\/\/(?:i\.)?imgur\.com\/(?:a\/|gallery\/)?([^.]+)(?:\..*)?$/
               : null;
           break;
+        case "music":
+          regexToUse =
+            source === 1
+              ? //eslint-disable-next-line
+                /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:soundcloud\.com|snd.sc))(\/)(\S+)(\/)(\S+)$/
+              : source === 2 //eslint-disable-next-line
+              ? /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/|shorts\/|clip\/)?)([\w\-]+)(\S+)?$/
+              : null;
+          break;
         default:
           regexToUse = null;
           break;
@@ -106,6 +115,14 @@ export default function Creation(props) {
             const imgurData = video.isAlbum ? await getAlbum(video.id) : await getImageInfo(video.id);
             video.imgurData = imgurData;
           }
+          setVideo(video);
+          break;
+        case "music":
+          video = {
+            id: source === 1 ? linkSplit[7] : source === 2 ? linkSplit[5] : null,
+            link: link,
+            source: source === 1 ? "soundcloud" : source === 2 ? "youtube" : null,
+          };
           setVideo(video);
           break;
         default:
@@ -225,7 +242,7 @@ export default function Creation(props) {
         </Alert>
       )}
       <form noValidate>
-        {(contest.type === "alert" || contest.type === "emote") && (
+        {(contest.type === "alert" || contest.type === "emote" || contest.type === "music") && (
           <TextField
             sx={{ mt: 1 }}
             variant="outlined"
@@ -265,18 +282,28 @@ export default function Creation(props) {
             </Select>
           </FormControl>
         )}
+        {contest.type === "music" && (
+          <FormControl fullWidth required sx={{ mt: 1 }}>
+            <InputLabel id="source-label">Source</InputLabel>
+            <Select labelId="source-label" value={source} label="Source" onChange={handleSource}>
+              <MenuItem value={1}>Soundcloud</MenuItem>
+              <MenuItem value={2}>Youtube</MenuItem>
+            </Select>
+          </FormControl>
+        )}
         <TextField variant="outlined" margin="normal" required fullWidth label={"Link"} name={"Link"} autoComplete="off" autoCapitalize="off" autoCorrect="off" onChange={handleLinkChange} />
+
         {commentError && (
           <Alert sx={{ mt: 1 }} severity="error">
             {commentErrorMsg}
           </Alert>
         )}
-        {(contest.type === "alert" || contest.type === "emote") && (
+        {(contest.type === "alert" || contest.type === "emote" || contest.type === "music") && (
           <TextField
             multiline
             rows={4}
             variant="filled"
-            margin="normal"
+            margin="dense"
             fullWidth
             label="Comment"
             name="Comment"

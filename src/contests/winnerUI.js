@@ -52,12 +52,12 @@ export default function Winners(props) {
     const sendSubmissions = [];
     for (let submission of submissions) {
       sendSubmissions.push({
-        misc: submission.userId,
+        misc: submission.id,
         name: Math.random().toString(36).slice(2),
       });
     }
 
-    await fetch(`https://contests.nymn.gg/v1/challonge`, {
+    await fetch(`${process.env.REACT_APP_CONTESTS_API}/v1/challonge`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export default function Winners(props) {
     if (!matches) return;
 
     const getSubmission = (id) => {
-      return submissions.find((submission) => parseInt(submission.userId) === id);
+      return submissions.find((submission) => parseInt(submission.id) === id);
     };
 
     let maxRounds = 0,
