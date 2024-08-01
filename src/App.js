@@ -109,7 +109,7 @@ export default function App() {
               <Route exact path="/mousepad" element={<Redirect to="https://epicdesk.shop/products/nymn" />} />
               <Route exact path="/merch" element={<Redirect to="https://nymn-official-merchandise.creator-spring.com" />} />
               <Route exact path="/book" element={<Redirect to="https://docs.google.com/document/d/1Hn47B7IN16eL8LeRknhlnikrwdW9WQCoEwCvZlcbQ-4/edit" />} />
-              <Route exact path="/form" element={<Redirect to="https://forms.gle/MEYhQtnZyVVJrzAi8" />} />
+              <Route exact path="/form" element={<Redirect to="https://forms.gle/8ovQjJVng3GeDHjZA" />} />
               <Route
                 exact
                 path="/contests"
