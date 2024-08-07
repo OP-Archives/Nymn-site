@@ -1,6 +1,5 @@
 import { useState } from "react";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { Box, Button, Typography, Menu } from "@mui/material";
 
@@ -24,11 +23,6 @@ export default function WatchMenu(props) {
           <Box>
             <Button color="primary" disabled={vod.youtube.length === 0} href={`/youtube/${vod.id}`} startIcon={<YouTubeIcon />} size="large" fullWidth sx={{ justifyContent: "flex-start" }}>
               Youtube (Vod)
-            </Button>
-          </Box>
-          <Box>
-            <Button color="primary" href={`/manual/${vod.id}`} startIcon={<OpenInBrowserIcon />} size="large" fullWidth sx={{ justifyContent: "flex-start" }}>
-              Manual (VOD)
             </Button>
           </Box>
           {vod.games.length !== 0 && (
